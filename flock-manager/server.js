@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const zmq = require("zeromq")
 
 async function run() {
