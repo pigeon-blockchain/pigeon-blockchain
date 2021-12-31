@@ -1,13 +1,13 @@
 #!/bin/bash
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-pushd $SCRIPT_DIR
-pushd ../flock-manager
+pushd $SCRIPT_DIR >> /dev/null
+pushd ../flock-manager >> /dev/null
 ./server.js &
-popd
-pushd ../flock-cli
+popd >> /dev/null
+pushd ../flock-cli >> /dev/null
 ./cli.js &
-popd
-popd
+popd >> /dev/null
+popd >> /dev/null
 
 echo "Press any key to finish"
 read mainmenuinput
