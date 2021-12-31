@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -o errexit
+set -v
 
 # Create a container
 container=$(buildah from fedora:35)
@@ -9,7 +10,9 @@ container=$(buildah from fedora:35)
 buildah config --label maintainer="Joseph C Wang <joe@pigeonchain.co>" $container
 
 # Grab the source code outside of the container
+if [ ! -e hello-2.10.tar.gz ] ; then
 curl -sSL http://ftpmirror.gnu.org/hello/hello-2.10.tar.gz -o hello-2.10.tar.gz
+fi
 
 buildah copy $container hello-2.10.tar.gz /tmp/hello-2.10.tar.gz
 
