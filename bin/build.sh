@@ -8,7 +8,9 @@ pushd ../flocks/pigeon-blockchain
 npm run build
 popd
 pushd ../flock-manager
-python -mbuild
-pip install dist/*.whl
+npm install
+popd
+pushd ../flock-cli
+npm install
 popd
 popd

@@ -2,7 +2,7 @@
     "name": "flock-manager",
     "scripts": {
         "build": "./bin/build.sh",
-        "run": "./bin/run.sh"
+        "start": "./server.js &"
     },
     "dependencies": {
         "zeromq": "^6.0.0-beta.6"
