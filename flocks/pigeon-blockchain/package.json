@@ -1,0 +1,7 @@
+{
+    "name": "pigeon-blockchain",
+    "scripts": {
+	"build": "./build-flock.sh"
+    }
+}
+
