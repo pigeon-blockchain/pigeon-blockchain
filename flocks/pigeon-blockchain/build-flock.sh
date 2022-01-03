@@ -28,6 +28,10 @@ buildah run $container make
 buildah run $container make install
 buildah run $container hello -v
 
+buildah run $container dnf install -y dnf-plugins-core distribution-gpg-keys
+buildah run $container dnf copr enable taw/ipfs -y
+buildah run $container dnf install -y go-ipfs --refresh
+
 # Entrypoint, too, is a “buildah config” command
 buildah config --entrypoint /usr/local/bin/hello $container
 
