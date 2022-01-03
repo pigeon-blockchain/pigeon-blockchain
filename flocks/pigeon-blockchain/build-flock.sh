@@ -36,4 +36,4 @@ buildah run $container dnf install -y go-ipfs --refresh
 buildah config --entrypoint /usr/local/bin/hello $container
 
 # Finally saves the running container to an image
-buildah commit --format docker $container hello:latest
+buildah commit --format docker $container pigeon-blockchain:latest
