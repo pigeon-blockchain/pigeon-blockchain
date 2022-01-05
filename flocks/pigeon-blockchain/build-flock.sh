@@ -13,29 +13,15 @@ buildah config --label maintainer="Joseph C Wang <joe@pigeonchain.co>" $containe
 
 cp $script_dir/*.sh $mountpoint/tmp
 chmod a+x $mountpoint/tmp/*.sh
-
-# Grab the source code outside of the container
-if [ ! -e hello-2.10.tar.gz ] ; then
-curl -sSL http://ftpmirror.gnu.org/hello/hello-2.10.tar.gz -o hello-2.10.tar.gz
-fi
-
-buildah copy $container hello-2.10.tar.gz /tmp/hello-2.10.tar.gz
+cp -r $script_dir/blockchain $mountpoint/tmp
 buildah run $container /tmp/00_build.sh
-
-# Workingdir is also a "buildah config" command
-buildah config --workingdir /opt/hello-2.10 $container
-
-buildah run $container ./configure
-buildah run $container make
-buildah run $container make install
-buildah run $container hello -v
 
 buildah run $container dnf install -y dnf-plugins-core distribution-gpg-keys
 buildah run $container dnf copr enable taw/ipfs -y
 buildah run $container dnf install -y go-ipfs --refresh
 
 # Entrypoint, too, is a “buildah config” command
-buildah config --entrypoint /usr/local/bin/hello $container
+buildah config --entrypoint /home/user/run.sh $container
 
 # Finally saves the running container to an image
 buildah commit --format docker $container pigeon-blockchain:latest
