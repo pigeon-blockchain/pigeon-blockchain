@@ -1,16 +1,17 @@
 #!/bin/bash
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-pushd $SCRIPT_DIR
-pushd ../flocks/hello-world
+pushd $SCRIPT_DIR > /dev/null
+pushd ../flocks/hello-world > /dev/null
 npm run build
-popd
-pushd ../flocks/pigeon-blockchain
+popd > /dev/null
+pushd ../flocks/pigeon-blockchain > /dev/null
 npm run build
-popd
-pushd ../flock-manager
+popd > /dev/null
+pushd ../flock-manager > /dev/null
 npm install
-popd
-pushd ../flock-cli
+popd > /dev/null
+pushd ../flock-cli > /dev/null
 npm install
-popd
-popd
+popd > /dev/null
+popd > /dev/null
+
