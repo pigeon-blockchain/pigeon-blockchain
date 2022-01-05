@@ -5,6 +5,7 @@
         "start": "./server.js &"
     },
     "dependencies": {
+        "@msgpack/msgpack": "^2.7.1",
         "zeromq": "^6.0.0-beta.6"
     }
 }

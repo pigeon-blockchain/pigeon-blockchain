@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const zmq = require("zeromq")
 const readline = require('readline');
+const { encode, decode } = require("@msgpack/msgpack");
 
 var rl = readline.createInterface({
     input: process.stdin,
@@ -12,12 +13,12 @@ async function run() {
     sock.connect("tcp://127.0.0.1:3000")
     console.log("Producer bound to port 3000")
     const asyncReadline = function() {
-	rl.question("Command: ", async function(answer) {
-	    sock.send(answer)
-	    const [result] = await sock.receive()
-	    console.log(result.toString());
-	    asyncReadline();
-	});
+      rl.question("Command: ", async function(answer) {
+	sock.send(encode(answer))
+	const [result] = await sock.receive()
+	console.log(decode(result));
+	asyncReadline();
+      });
     }
     asyncReadline();
 }
