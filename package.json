@@ -1,7 +1,8 @@
 {
-    "name": "pigeon-blockchain",
-    "scripts": {
-	"build": "./bin/build.sh",
-	"run": "./bin/run.sh"
-    }
+  "name": "pigeon-blockchain",
+  "scripts": {
+    "build": "./bin/build.sh",
+    "run": "./bin/run.sh",
+    "start": "./bin/start.sh"
+  }
 }
