@@ -1,7 +1,7 @@
 #!/usr/bin/env node
-const zmq = require("zeromq")
-const readline = require('readline');
-const { encode, decode } = require("@msgpack/msgpack");
+import zmq = require("zeromq")
+import readline = require('readline');
+import { encode, decode } from "@msgpack/msgpack";
 
 var rl = readline.createInterface({
     input: process.stdin,
