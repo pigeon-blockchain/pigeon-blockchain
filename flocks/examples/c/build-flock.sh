@@ -15,12 +15,12 @@ cp $script_dir/*.sh $mountpoint/tmp
 chmod a+x $mountpoint/tmp/*.sh
 
 # Grab the source code outside of the container
-curl -sSL http://ftpmirror.gnu.org/hello/hello-2.10.tar.gz -o $mountpoint/tmp/hello-2.10.tar.gz
+curl -sSL http://ftp.gnu.org/gnu/hello/hello-2.10.tar.gz -o $mountpoint/tmp/hello-2.10.tar.gz
 
-buildah run $container /tmp/00_build.sh
+buildah run $container /tmp/build.sh
 
 # Entrypoint, too, is a “buildah config” command
 buildah config --entrypoint /home/user/run.sh $container
 
 # Finally saves the running container to an image
-buildah commit --format docker $container hello:latest
+buildah commit --squash --format docker $container hello:latest
