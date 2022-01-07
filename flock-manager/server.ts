@@ -1,11 +1,20 @@
 #!/usr/bin/env node
 import zmq = require("zeromq")
 import { encode, decode } from "@msgpack/msgpack";
+import util = require('util')
 const execShPromise = require("exec-sh").promise;
+var pod : string = "";
 
 async function run() {
   const sock = new zmq.Reply
   await sock.bind("tcp://127.0.0.1:3000")
+  try {
+    const out : any = await execShPromise('podman pod create', true);
+    pod = out.stdout.trim()
+    console.log("created pod " + pod)
+  } catch(e) {
+    console.log('unable to create pod')
+  }
 
   for await (const [msg] of sock) {
     const inobj: any = decode(msg);
@@ -28,8 +37,10 @@ async function run() {
       // need to scrub string
       try {
 	const out : any =
-	      await execShPromise('podman run ' + inobj.data ,
-				  true);
+	      await execShPromise(
+		util.format(
+		  'podman run --pod %s %s', pod, inobj.data
+		), true);
 	retval = out.stdout;
       } catch(e) {
 	retval = e.stderr;
@@ -42,3 +53,19 @@ async function run() {
 }
 
 run()
+
+async function shutdown() {
+    console.log('Shutting down');
+  if (pod != "") {
+    try {
+      const out : any = await execShPromise('podman pod rm ' + pod, true);
+      process.exit(0);
+    } catch(e) {
+      console.log(e.stderr);
+      process.exit(1);
+    }
+  }
+}
+
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
