@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import zmq = require("zeromq")
 import { encode, decode } from "@msgpack/msgpack";
+const execShPromise = require("exec-sh").promise;
 
 async function run() {
   const sock = new zmq.Reply
@@ -15,6 +16,24 @@ async function run() {
       retval = inobj.data;
     } else if (inobj.cmd == "test") {
       retval = 2 * parseInt(decode(inobj.data).toString());
+    } else if (inobj.cmd == "list") {
+      try {
+	const out : any = await execShPromise('podman images', true);
+	retval = out.stdout;
+      } catch(e) {
+	retval = e.stderr;
+      }
+    } else if (inobj.cmd == "run") {
+      // TODO: running input string through shell.
+      // need to scrub string
+      try {
+	const out : any =
+	      await execShPromise('podman run ' + inobj.data ,
+				  true);
+	retval = out.stdout;
+      } catch(e) {
+	retval = e.stderr;
+      }
     } else {
       retval = "unknown command";
     }
