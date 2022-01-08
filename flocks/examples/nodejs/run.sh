@@ -1,2 +1,3 @@
 #!/bin/bash
-echo "Hello world"
+node /opt/example-nodejs-flock/server.js
+

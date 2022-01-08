@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 set -o errexit
-set -v
 
 # Create a container
 container=$(buildah from fedora:35)
