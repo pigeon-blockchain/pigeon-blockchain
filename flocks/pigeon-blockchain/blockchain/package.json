@@ -1,0 +1,7 @@
+{
+    "name": "blockchain",
+    "dependencies": {
+        "crypto": "^1.0.1",
+        "ipfs-core": "^0.13.0"
+    }
+}

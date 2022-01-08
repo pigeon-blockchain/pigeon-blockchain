@@ -16,10 +16,6 @@ chmod a+x $mountpoint/tmp/*.sh
 cp -r $script_dir/blockchain $mountpoint/tmp
 buildah run $container /tmp/build.sh
 
-buildah run $container dnf install -y dnf-plugins-core distribution-gpg-keys
-buildah run $container dnf copr enable taw/ipfs -y
-buildah run $container dnf install -y go-ipfs --refresh
-
 # Entrypoint, too, is a “buildah config” command
 buildah config --entrypoint /opt/pigeon-blockchain/run.sh $container
 

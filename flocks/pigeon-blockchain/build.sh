@@ -2,11 +2,11 @@
 
 mkdir -p /opt/pigeon-blockchain
 pushd /opt/pigeon-blockchain
-dnf install -y tar gzip gcc make nodejs ipfs
+dnf install -y tar gzip gcc make nodejs
 
 cp -r /tmp/blockchain .
 pushd blockchain
-npm install crypto
+npm install
 popd
 dnf remove -y tar gcc make
 dnf clean all
