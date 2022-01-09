@@ -13,11 +13,8 @@ buildah config --label maintainer="Joseph C Wang <joe@pigeonchain.co>" $containe
 
 cp $script_dir/*.sh $mountpoint/tmp
 chmod a+x $mountpoint/tmp/*.sh
-cp -r $script_dir/blockchain $mountpoint/tmp
+mkdir -p $mountpoint/opt
+cp -r $script_dir/blockchain $mountpoint/opt/pigeon-blockchain
 buildah run $container /tmp/build.sh
-
-# Entrypoint, too, is a “buildah config” command
-buildah config --entrypoint /opt/pigeon-blockchain/run.sh $container
-
-# Finally saves the running container to an image
+buildah config --cmd /opt/pigeon-blockchain/run.sh $container
 buildah commit --squash --format docker $container pigeon-blockchain:latest

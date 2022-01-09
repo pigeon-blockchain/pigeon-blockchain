@@ -1,7 +1,19 @@
 {
     "name": "blockchain",
+    "scripts": {
+        "build": "tsc blockapp.ts ; chmod a+x blockapp.js",
+        "start": "node blockapp.js"
+    },
     "dependencies": {
+        "@msgpack/msgpack": "^2.7.1",
         "crypto": "^1.0.1",
-        "ipfs-core": "^0.13.0"
+        "ipfs-core": "^0.13.0",
+        "vanilla-blockchain": "github:pigeon-blockchain/vanilla-blockchain",
+        "zeromq": "^6.0.0-beta.6"
+    },
+    "devDependencies": {
+        "@types/node": "^17.0.8",
+        "install": "^0.13.0",
+        "typescript": "^4.5.4"
     }
 }
