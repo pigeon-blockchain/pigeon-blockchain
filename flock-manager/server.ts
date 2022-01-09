@@ -5,6 +5,10 @@ import util = require('util')
 const execShPromise = require("exec-sh").promise;
 var pod : string = "";
 
+function test_string(s : string) {
+  return /^[A-Za-z0-9\/\-]+$/.test(s);
+}
+
 async function run() {
   const sock = new zmq.Reply
   await sock.bind("tcp://127.0.0.1:3000")
@@ -36,12 +40,17 @@ async function run() {
       // TODO: running input string through shell.
       // need to scrub string
       try {
-	const out : any =
-	      await execShPromise(
-		util.format(
-		  'podman run --pod %s %s', pod, inobj.data
-		), true);
-	retval = out.stdout;
+	const s : string = inobj.data.trim();
+	if (!test_string(s)) {
+	  retval = "invalid image"
+	} else {
+	  const out : any =
+		await execShPromise(
+		  util.format(
+		  'podman run --pod %s %s &', pod, s
+		  ), true);
+	  retval = out.stdout;
+	}
       } catch(e) {
 	retval = e.stderr;
       }
