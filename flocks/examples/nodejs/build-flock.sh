@@ -20,7 +20,7 @@ chmod a+x $mountpoint/opt/$name
 buildah run $container /tmp/build.sh
 
 # Entrypoint, too, is a “buildah config” command
-buildah config --entrypoint /opt/$name/run.sh $container
+buildah config --cmd /opt/$name/run.sh $container
 
 # Finally saves the running container to an image
 buildah commit --squash --format docker $container $name:latest

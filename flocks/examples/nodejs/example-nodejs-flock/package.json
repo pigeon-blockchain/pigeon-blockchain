@@ -2,7 +2,7 @@
     "name": "flock-manager",
     "scripts": {
         "build": "tsc server.ts ; chmod a+x server.js",
-        "start": "./server.js &"
+        "start": "node server.js"
     },
     "dependencies": {
         "@msgpack/msgpack": "^2.7.1",
