@@ -3,26 +3,27 @@ import zmq = require("zeromq")
 import { encode, decode } from "@msgpack/msgpack";
 import util = require('util')
 const execShPromise = require("exec-sh").promise;
-var pod : string = "";
 
-function test_string(s : string) {
+function test_string(s : string) : boolean {
   return /^[A-Za-z0-9\/\-:]+$/.test(s);
 }
 
-function test_image(s : string) {
+function test_image(s : string) : boolean {
   return /^[a-z0-9_]+$/.test(s);
 }
 
-async function run() {
+async function startup(): Promise<string> {
+  const out : any = await execShPromise('podman pod create', true);
+  return out.stdout.trim()
+}
+
+async function shutdown(pod: string): Promise<void> {
+  execShPromise('podman pod rm -f ' + pod, true);
+}
+
+async function run(pod: string) : Promise<void> {
   const sock = new zmq.Reply
   await sock.bind("tcp://127.0.0.1:3000")
-  try {
-    const out : any = await execShPromise('podman pod create', true);
-    pod = out.stdout.trim()
-    console.log("created pod " + pod)
-  } catch(e) {
-    console.log('unable to create pod')
-  }
 
   for await (const [msg] of sock) {
     const inobj: any = decode(msg);
@@ -89,20 +90,30 @@ async function run() {
   }
 }
 
-run()
-
-async function shutdown() {
+async function main(): Promise<void> {
+  let pod : string;
+  async function exit() : Promise<void> {
     console.log('Shutting down');
-  if (pod != "") {
     try {
-      const out : any = await execShPromise('podman pod rm ' + pod, true);
+      await shutdown(pod);
       process.exit(0);
     } catch(e) {
       console.log(e.stderr);
       process.exit(1);
     }
   }
+
+  process.on('SIGTERM', exit);
+  process.on('SIGINT', exit);
+
+  try {
+    pod = await startup();
+    console.log("created pod " + pod)
+    run(pod)
+  } catch(e) {
+    console.log('unable to create pod')
+  }
 }
 
-process.on('SIGTERM', shutdown);
-process.on('SIGINT', shutdown);
+main();
+
