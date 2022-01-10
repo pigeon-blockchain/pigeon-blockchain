@@ -6,7 +6,7 @@ pushd ../flock-manager >> /dev/null
 popd >> /dev/null
 pushd ../flock-cli >> /dev/null
 ./cli.js <<EOF
-3
+list
 EOF
 popd >> /dev/null
 popd >> /dev/null

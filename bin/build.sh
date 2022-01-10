@@ -4,6 +4,9 @@ pushd $SCRIPT_DIR > /dev/null
 pushd ../flocks/examples/c > /dev/null
 npm run build
 popd > /dev/null
+pushd ../flocks/examples/nodejs > /dev/null
+npm run build
+popd > /dev/null
 pushd ../flocks/pigeon-blockchain > /dev/null
 npm run build
 popd > /dev/null
