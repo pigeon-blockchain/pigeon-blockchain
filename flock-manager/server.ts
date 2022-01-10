@@ -6,7 +6,11 @@ const execShPromise = require("exec-sh").promise;
 var pod : string = "";
 
 function test_string(s : string) {
-  return /^[A-Za-z0-9\/\-]+$/.test(s);
+  return /^[A-Za-z0-9\/\-:]+$/.test(s);
+}
+
+function test_image(s : string) {
+  return /^[a-z0-9_]+$/.test(s);
 }
 
 async function run() {
@@ -36,9 +40,14 @@ async function run() {
       } catch(e) {
 	retval = e.stderr;
       }
+    } else if (inobj.cmd == "ps") {
+      try {
+	const out : any = await execShPromise('podman ps', true);
+	retval = out.stdout;
+      } catch(e) {
+	retval = e.stderr;
+      }
     } else if (inobj.cmd == "run") {
-      // TODO: running input string through shell.
-      // need to scrub string
       try {
 	const s : string = inobj.data.trim();
 	if (!test_string(s)) {
@@ -48,7 +57,26 @@ async function run() {
 		await execShPromise(
 		  util.format(
 		  'podman run --pod %s %s &', pod, s
-		  ), true);
+		  ), {
+		    detached: true,
+		    stdio: 'ignore'
+		  });
+	  retval = out.stdout;
+	}
+      } catch(e) {
+	retval = e.stderr;
+      }
+    } else if (inobj.cmd == "stop") {
+      try {
+	const s : string = inobj.data.trim();
+	if (!test_image(s)) {
+	  retval = "invalid image"
+	} else {
+	  const out : any =
+		await execShPromise(
+		  util.format(
+		  'podman stop %s &', s
+		  ));
 	  retval = out.stdout;
 	}
       } catch(e) {
