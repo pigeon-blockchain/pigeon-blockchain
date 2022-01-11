@@ -5,9 +5,8 @@ import util = require('util')
 import blockchain = require('vanilla-blockchain')
 var pod : string = "";
 
-async function run() {
-  const sock = new zmq.Reply
-  await sock.bind("tcp://127.0.0.1:3000")
+
+async function run_reply(sock) : Promise<void> {
   for await (const [msg] of sock) {
     const inobj: any = decode(msg);
     var retval;
@@ -24,4 +23,22 @@ async function run() {
   }
 }
 
-run()
+
+async function run_pub(sock) : Promise<void> {
+  while (true) {
+    await sock.send(["kitty cats", "meow!"])
+    await new Promise(resolve => setTimeout(resolve, 10000))
+  }
+}
+
+
+async function main() : Promise<void> {
+  const reply_sock = new zmq.Reply
+  const pub_sock = new zmq.Publisher
+  await reply_sock.bind("tcp://127.0.0.1:3000")
+  await pub_sock.bind("tcp://127.0.0.1:3001")
+  run_reply(reply_sock)
+  run_pub(pub_sock)
+}
+
+main()
