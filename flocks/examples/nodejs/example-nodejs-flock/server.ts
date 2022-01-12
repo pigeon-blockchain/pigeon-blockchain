@@ -11,7 +11,8 @@ async function run() {
 
   for await (const [msg] of sock) {
     const inobj: any = decode(msg);
-    const retval = 2 * parseInt(decode(inobj.data).toString());
+    const data: any = decode(inobj.data);
+    const retval = 2 * parseInt(data.toString());
     await sock.send(encode(retval))
   }
 }
