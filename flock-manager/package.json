@@ -1,7 +1,8 @@
 {
     "name": "flock-manager",
     "scripts": {
-        "build": "tsc server.ts ; chmod a+x server.js",
+        "build": "tsc --build ; chmod a+x server.js",
+        "clean": "tsc --build --clean",
         "start": "./server.js &"
     },
     "dependencies": {

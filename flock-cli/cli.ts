@@ -8,7 +8,11 @@ var rl = readline.createInterface({
     output: process.stdout
 });
 
-function my_split(string, delimiter, n) {
+function my_split(
+  string: string,
+  delimiter: string,
+  n: number
+) {
     var parts = string.split(delimiter);
     return parts.slice(0, n - 1).concat([parts.slice(n - 1).join(delimiter)]);
 }

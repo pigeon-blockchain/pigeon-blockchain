@@ -27,25 +27,26 @@ async function run(pod: string) : Promise<void> {
 
   for await (const [msg] of sock) {
     const inobj: any = decode(msg);
-    var retval;
+    var retval : any;
     if (inobj.cmd == "help") {
       retval = "help string";
     } else if (inobj.cmd == "echo") {
       retval = inobj.data;
     } else if (inobj.cmd == "test") {
-      retval = 2 * parseInt(decode(inobj.data).toString());
+      const data : any = decode(inobj.data)
+      retval = 2 * parseInt(data.toString());
     } else if (inobj.cmd == "list") {
       try {
 	const out : any = await execShPromise('podman images', true);
 	retval = out.stdout;
-      } catch(e) {
+      } catch(e : any) {
 	retval = e.stderr;
       }
     } else if (inobj.cmd == "ps") {
       try {
 	const out : any = await execShPromise('podman ps', true);
 	retval = out.stdout;
-      } catch(e) {
+      } catch(e : any) {
 	retval = e.stderr;
       }
     } else if (inobj.cmd == "run") {
@@ -64,7 +65,7 @@ async function run(pod: string) : Promise<void> {
 		  });
 	  retval = out.stdout;
 	}
-      } catch(e) {
+      } catch(e : any) {
 	retval = e.stderr;
       }
     } else if (inobj.cmd == "stop") {
@@ -80,7 +81,7 @@ async function run(pod: string) : Promise<void> {
 		  ));
 	  retval = out.stdout;
 	}
-      } catch(e) {
+      } catch(e : any) {
 	retval = e.stderr;
       }
     } else {
@@ -97,7 +98,7 @@ async function main(): Promise<void> {
     try {
       await shutdown(pod);
       process.exit(0);
-    } catch(e) {
+    } catch(e : any) {
       console.log(e.stderr);
       process.exit(1);
     }

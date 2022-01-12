@@ -1,7 +1,8 @@
 {
   "name": "flock-cli",
   "scripts": {
-    "build": "tsc cli.ts ; chmod a+x cli.js"
+    "build": "tsc --build ; chmod a+x cli.js",
+    "cli": "tsc --build --clean"
   },
   "dependencies": {
     "@msgpack/msgpack": "^2.7.1",
