@@ -5,7 +5,7 @@ import 'regenerator-runtime/runtime'
 import blockchain = require('vanilla-blockchain')
 
 async function run_reply(
-  blockchain : blockchain.Blockchain,
+  blockchain : any,
   sock : zmq.Reply,
   pub_sock : zmq.Publisher
 ) : Promise<void> {

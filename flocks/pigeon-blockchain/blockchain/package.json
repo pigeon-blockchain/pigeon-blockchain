@@ -1,7 +1,8 @@
 {
     "name": "blockchain",
     "scripts": {
-        "build": "tsc blockapp.ts ; chmod a+x blockapp.js",
+        "build": "tsc ; chmod a+x blockapp.js",
+        "clean": "tsc --build --clean",
         "start": "node blockapp.js"
     },
     "dependencies": {
