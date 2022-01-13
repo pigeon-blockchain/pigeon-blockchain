@@ -4,7 +4,7 @@ set -o errexit
 set -v
 
 # Create a container
-container=$(buildah from fedora:35)
+container=$(buildah from fedora)
 mountpoint=$(buildah mount $container)
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
