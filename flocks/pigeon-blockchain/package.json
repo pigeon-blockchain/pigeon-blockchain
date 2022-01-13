@@ -1,7 +1,0 @@
-{
-    "name": "pigeon-blockchain",
-    "scripts": {
-	"build": "buildah unshare ./build-flock.sh"
-    }
-}
-
