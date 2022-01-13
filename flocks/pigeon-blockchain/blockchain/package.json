@@ -1,7 +1,7 @@
 {
     "name": "blockchain",
     "scripts": {
-        "build": "tsc ; chmod a+x blockapp.js",
+        "build": "tsc ; chmod a+x *.js",
         "clean": "tsc --build --clean",
         "lint": "eslint *.ts",
         "start": "node blockapp.js"
@@ -10,6 +10,7 @@
         "@msgpack/msgpack": "^2.7.1",
         "crypto": "^1.0.1",
         "ipfs-core": "^0.13.0",
+        "logging": "^3.3.0",
         "regenerator-runtime": "^0.13.9",
         "vanilla-blockchain": "github:pigeon-blockchain/vanilla-blockchain",
         "zeromq": "^6.0.0-beta.6"

@@ -3,6 +3,8 @@ import zmq = require('zeromq')
 import { encode, decode } from '@msgpack/msgpack'
 import 'regenerator-runtime/runtime'
 import blockchain = require('vanilla-blockchain')
+import createLogger from 'logging';
+const logger = createLogger('blockapp');
 
 async function runReply (
   blockchain : any,
@@ -12,6 +14,7 @@ async function runReply (
   for await (const [msg] of sock) {
     const inobj: any = decode(msg)
     let retval
+    logger.debug('received command ' + inobj.cmd)
     if (inobj.cmd === 'echo') {
       retval = inobj.data
     } else if (inobj.cmd === 'blockchain') {
@@ -31,7 +34,7 @@ async function main () : Promise<void> {
   await replySock.bind('tcp://127.0.0.1:3000')
   await pubSock.bind('tcp://127.0.0.1:3001')
   const bc = await new blockchain.AsyncBlockchain()
-  console.log('starting blockchain')
+  logger.info('starting blockchain')
   runReply(bc, replySock, pubSock)
 }
 
