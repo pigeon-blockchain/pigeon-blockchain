@@ -7,10 +7,7 @@ popd > /dev/null
 pushd ../flocks/examples/nodejs > /dev/null
 npm run build
 popd > /dev/null
-pushd ../flocks/pigeon-blockchain > /dev/null
-npm run build
-popd > /dev/null
-pushd ../flock-manager > /dev/null
+pushd ../beacon > /dev/null
 npm install
 popd > /dev/null
 pushd ../flock-cli > /dev/null
