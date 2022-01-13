@@ -2,6 +2,10 @@
 import zmq = require('zeromq')
 import { encode, decode } from '@msgpack/msgpack'
 import util = require('util')
+import 'regenerator-runtime/runtime'
+import blockchain = require('vanilla-blockchain')
+import createLogger from 'logging'
+const logger = createLogger('blockapp')
 const execShPromise = require('exec-sh').promise
 
 function testString (s : string) : boolean {
@@ -21,10 +25,12 @@ async function shutdown (pod: string): Promise<void> {
   execShPromise('podman pod rm -f ' + pod, true)
 }
 
-async function run (pod: string) : Promise<void> {
-  const sock = new zmq.Reply()
-  await sock.bind('tcp://127.0.0.1:3000')
-
+async function run (
+  pod: string,
+  blockchain : any,
+  sock : zmq.Reply,
+  pubSock : zmq.Publisher
+) : Promise<void> {
   for await (const [msg] of sock) {
     const inobj: any = decode(msg)
     let retval : any
@@ -84,6 +90,10 @@ async function run (pod: string) : Promise<void> {
       } catch (e : any) {
         retval = e.stderr
       }
+    } else if (inobj.cmd === 'blockchain') {
+      const { hash: previousHash } = blockchain.latestBlock
+      retval = await blockchain.addBlock(inobj.data, previousHash)
+      pubSock.send(encode(retval))
     } else {
       retval = 'unknown command'
     }
@@ -93,13 +103,20 @@ async function run (pod: string) : Promise<void> {
 
 async function main (): Promise<void> {
   let pod : string
+  const replySock = new zmq.Reply()
+  const pubSock = new zmq.Publisher()
+  await replySock.bind('tcp://127.0.0.1:3000')
+  await pubSock.bind('tcp://127.0.0.1:3001')
+  const bc = await new blockchain.AsyncBlockchain()
+  logger.info('starting blockchain')
+
   async function exit () : Promise<void> {
     console.log('Shutting down')
     try {
       await shutdown(pod)
       process.exit(0)
     } catch (e : any) {
-      console.log(e.stderr)
+      logger.info(e.stderr)
       process.exit(1)
     }
   }
@@ -109,10 +126,12 @@ async function main (): Promise<void> {
 
   try {
     pod = await startup()
-    console.log('created pod ' + pod)
-    run(pod)
+    logger.info('created pod ' + pod)
+    run(
+      pod, bc, replySock, pubSock
+    )
   } catch (e) {
-    console.log('unable to create pod')
+    logger.info('unable to create pod')
   }
 }
 
