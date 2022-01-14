@@ -5,9 +5,9 @@ import util = require('util')
 import 'regenerator-runtime/runtime'
 import blockchain = require('vanilla-blockchain')
 import createLogger from 'logging'
+import { execSync } from 'child_process'
 const logger = createLogger('blockapp')
 const execShPromise = require('exec-sh').promise
-const { execSync } = require('child_process');
 
 function testString (s : string) : boolean {
   return /^[A-Za-z0-9/\-:]+$/.test(s)
@@ -40,12 +40,7 @@ class BlockApp {
     return out.toString().trim()
   }
 
-  async shutdown (pod: string): Promise<void> {
-    execShPromise('podman pod rm -f ' + pod, true)
-  }
-
-  async run (
-  ) : Promise<void> {
+  async run () : Promise<void> {
     for await (const [msg] of this.sock) {
       const inobj: any = decode(msg)
       let retval : any
@@ -116,20 +111,17 @@ class BlockApp {
     }
   }
 
-  async exit () : Promise<void> {
+  async shutdown () : Promise<void> {
     console.log('Shutting down ' + this.pod)
     try {
-      await this.shutdown(this.pod)
-      process.exit(0)
+      await execShPromise('podman pod rm -f ' + this.pod, true)
     } catch (e : any) {
       logger.info(e.stderr)
-      process.exit(1)
     }
   }
 }
 
 async function main (): Promise<void> {
-  let pod : string
   const replySock = new zmq.Reply()
   const pubSock = new zmq.Publisher()
   await replySock.bind('tcp://127.0.0.1:3000')
@@ -137,18 +129,12 @@ async function main (): Promise<void> {
   const bc = await new blockchain.AsyncBlockchain()
   logger.info('starting blockchain')
 
-  try {
-
-    const app = new BlockApp(bc, replySock, pubSock)
-    process.on('SIGTERM', () => { app.exit() })
-    process.on('SIGINT', () => { app.exit() })
-    app.run()
-  } catch (e) {
-    logger.info('unable to create pod')
-  }
+  const app = new BlockApp(bc, replySock, pubSock)
+  process.on('SIGTERM', () => { app.shutdown() })
+  process.on('SIGINT', () => { app.shutdown() })
+  app.run()
 }
 
 if (typeof require !== 'undefined' && require.main === module) {
   main()
 }
-
