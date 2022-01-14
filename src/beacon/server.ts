@@ -7,6 +7,7 @@ import blockchain = require('vanilla-blockchain')
 import createLogger from 'logging'
 const logger = createLogger('blockapp')
 const execShPromise = require('exec-sh').promise
+const { execSync } = require('child_process');
 
 function testString (s : string) : boolean {
   return /^[A-Za-z0-9/\-:]+$/.test(s)
@@ -23,20 +24,20 @@ class BlockApp {
   pubSock: zmq.Publisher;
 
   constructor (
-    pod: string,
     blockchain : any,
     sock : zmq.Reply,
     pubSock : zmq.Publisher
   ) {
-    this.pod = pod
+    this.pod = this.startup()
+    logger.info('created pod ' + this.pod)
     this.blockchain = blockchain
     this.sock = sock
     this.pubSock = pubSock
   };
 
-  static async startup (): Promise<string> {
-    const out : any = await execShPromise('podman pod create', true)
-    return out.stdout.trim()
+  startup (): string {
+    const out : any = execSync('podman pod create')
+    return out.toString().trim()
   }
 
   async shutdown (pod: string): Promise<void> {
@@ -137,12 +138,10 @@ async function main (): Promise<void> {
   logger.info('starting blockchain')
 
   try {
-    pod = await BlockApp.startup()
-    const app = new BlockApp(pod, bc, replySock, pubSock)
+
+    const app = new BlockApp(bc, replySock, pubSock)
     process.on('SIGTERM', () => { app.exit() })
     process.on('SIGINT', () => { app.exit() })
-
-    logger.info('created pod ' + pod)
     app.run()
   } catch (e) {
     logger.info('unable to create pod')
