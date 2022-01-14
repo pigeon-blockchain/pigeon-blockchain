@@ -105,8 +105,8 @@ class BlockApp {
           retval = e.stderr
         }
       } else if (inobj.cmd === 'blockchain') {
-        const { hash: previousHash } = blockchain.latestBlock
-        retval = await blockchain.addBlock(inobj.data, previousHash)
+        const { hash: previousHash } = this.blockchain.latestBlock
+        retval = await this.blockchain.addBlock(inobj.data, previousHash)
         this.pubSock.send(encode(retval))
       } else {
         retval = 'unknown command'
