@@ -148,4 +148,7 @@ async function main (): Promise<void> {
   }
 }
 
-main()
+if (typeof require !== 'undefined' && require.main === module) {
+  main()
+}
+
