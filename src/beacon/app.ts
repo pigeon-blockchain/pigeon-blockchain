@@ -1,12 +1,12 @@
 #!/usr/bin/env node
 // SPDX-License-Identifier: MIT
 
-const FlockServer = require('./server.js')
-import zmq = require('zeromq')
 import { execSync } from 'child_process'
 import createLogger from 'logging'
+import 'regenerator-runtime/runtime'
 import util = require('util')
 import blockchain = require('vanilla-blockchain')
+const FlockServer = require('../../lib/server.js')
 
 const logger = createLogger('blockapp')
 const execShPromise = require('exec-sh').promise
@@ -23,19 +23,18 @@ class BlockApp extends FlockServer {
   pod: string;
   blockchain: any;
   constructor (
-    blockchain : any,
-    sock : zmq.Reply,
-    pubSock : zmq.Publisher
+    replySockId: string,
+    pubSockId: string
   ) {
-    super(sock, pubSock)
-    const out : any = execSync('podman pod create')
+    super(replySockId, pubSockId)
+    const out: any = execSync('podman pod create')
     this.pod = out.toString().trim()
     logger.info('created pod ' + this.pod)
-    this.blockchain = blockchain
-    this.addEvents()
   }
 
-  addEvents (): void {
+  async initialize (): Promise<void> {
+    await super.initialize()
+    this.blockchain = await await new blockchain.AsyncBlockchain()
     this.emitter.on('help', async (): Promise<void> => {
       this.send('help string')
     })
@@ -132,14 +131,11 @@ class BlockApp extends FlockServer {
 }
 
 async function main (): Promise<void> {
-  const replySock = new zmq.Reply()
-  const pubSock = new zmq.Publisher()
-  await replySock.bind('tcp://127.0.0.1:3000')
-  await pubSock.bind('tcp://127.0.0.1:3001')
-  const bc = await new blockchain.AsyncBlockchain()
-  logger.info('starting blockchain')
+  logger.info('starting BlockApp')
 
-  const app = new BlockApp(bc, replySock, pubSock)
+  const app = new BlockApp(
+    'tcp://127.0.0.1:3000',
+    'tcp://127.0.0.1:3001')
   process.on('SIGTERM', () => { app.shutdown() })
   process.on('SIGINT', () => { app.shutdown() })
   app.run()

@@ -7,24 +7,36 @@ import 'regenerator-runtime/runtime'
 import EventEmitter = require('events')
 
 module.exports = class FlockServer {
-  sock: zmq.Reply;
-  pubSock: zmq.Publisher;
-  emitter: EventEmitter;
+  replySockId: string
+  pubSockId: string
+  replySock : zmq.Reply
+  pubSock : zmq.Publisher
+  emitter: EventEmitter
+  initialized: boolean
 
   constructor (
-    sock : zmq.Reply,
-    pubSock : zmq.Publisher
+    replySockId: string,
+    pubSockId: string
   ) {
-    this.sock = sock
-    this.pubSock = pubSock
+    this.replySockId = replySockId
+    this.pubSockId = pubSockId
+    this.replySock = new zmq.Reply()
+    this.pubSock = new zmq.Publisher()
+
     this.emitter = new EventEmitter()
+    this.initialized = false
   };
 
-  addEvents (): void {
+  async initialize (): Promise<void> {
+    await this.replySock.bind(this.replySockId)
+    await this.pubSock.bind(this.pubSockId)
   }
 
   async run () : Promise<void> {
-    for await (const [msg] of this.sock) {
+    if (!this.initialized) {
+      await this.initialize()
+    }
+    for await (const [msg] of this.replySock) {
       const inobj: any = decode(msg)
       if (!this.emitter.emit(inobj.cmd, inobj.data)) {
         this.send('unknown command')
@@ -33,7 +45,7 @@ module.exports = class FlockServer {
   }
 
   async send (data: any) {
-    this.sock.send(encode(data))
+    this.replySock.send(encode(data))
   }
 
   async publish (data: any) {
