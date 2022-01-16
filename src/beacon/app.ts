@@ -27,7 +27,7 @@ class BlockApp extends FlockServer {
     pubSockId: string
   ) {
     super(replySockId, pubSockId)
-    const out: any = execSync('podman pod create')
+    const out = execSync('podman pod create')
     this.pod = out.toString().trim()
     logger.info('created pod ' + this.pod)
     process.on('SIGTERM', () => { this.shutdown() })
@@ -99,7 +99,7 @@ class BlockApp extends FlockServer {
           if (!testImage(s)) {
             this.send('invalid image')
           } else {
-            const out : any =
+            const out =
                   await execShPromise(
                     util.format(
                       'podman stop %s &', s
