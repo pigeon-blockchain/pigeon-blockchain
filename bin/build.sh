@@ -8,6 +8,10 @@ pushd ../src/flocks/examples/nodejs > /dev/null
 npm install
 npm run build
 popd > /dev/null
+pushd ../lib > /dev/null
+npm install
+npm run build
+popd > /dev/null
 pushd ../src/beacon > /dev/null
 npm install
 npm run build
