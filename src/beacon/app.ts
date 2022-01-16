@@ -30,6 +30,8 @@ class BlockApp extends FlockServer {
     const out: any = execSync('podman pod create')
     this.pod = out.toString().trim()
     logger.info('created pod ' + this.pod)
+    process.on('SIGTERM', () => { this.shutdown() })
+    process.on('SIGINT', () => { this.shutdown() })
   }
 
   async initialize (): Promise<void> {
@@ -130,17 +132,10 @@ class BlockApp extends FlockServer {
   }
 }
 
-async function main (): Promise<void> {
+if (typeof require !== 'undefined' && require.main === module) {
   logger.info('starting BlockApp')
-
   const app = new BlockApp(
     'tcp://127.0.0.1:3000',
     'tcp://127.0.0.1:3001')
-  process.on('SIGTERM', () => { app.shutdown() })
-  process.on('SIGINT', () => { app.shutdown() })
   app.run()
-}
-
-if (typeof require !== 'undefined' && require.main === module) {
-  main()
 }
