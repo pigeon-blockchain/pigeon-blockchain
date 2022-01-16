@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+// SPDX-License-Identifier: MIT
+
 import zmq = require('zeromq')
 import { encode, decode } from '@msgpack/msgpack'
 import util = require('util')
