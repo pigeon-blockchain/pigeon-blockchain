@@ -1,8 +1,16 @@
 {
   "name": "pigeon-blockchain",
   "scripts": {
-    "build": "./bin/build.sh",
+    "build": "npm run build --workspaces --if-present",
+    "clean": "npm run clean --workspaces --if-present",
+    "distclean": "npm run distclean --workspaces --if-present",
     "run": "./bin/run.sh",
     "start": "./bin/start.sh"
-  }
+  },
+  "workspaces": [
+    "lib",
+    "src/beacon",
+    "src/flocks/examples/c",
+    "src/flocks/examples/nodejs"
+  ]
 }
