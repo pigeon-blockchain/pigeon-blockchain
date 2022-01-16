@@ -55,29 +55,29 @@ class BlockApp {
 
     this.emitter.on(
       'test', async (data: any): Promise<void> => {
-	this.send(2 * parseInt(data.toString()))
+        this.send(2 * parseInt(data.toString()))
       })
- 
+
     this.emitter.on(
       'list', async (data: any): Promise<void> => {
-	try {
+        try {
           const out = await execShPromise('podman images', true)
           this.send(out.stdout)
-	} catch (e : any) {
+        } catch (e : any) {
           this.send(e.stderr)
-	}
+        }
       })
- 
+
     this.emitter.on(
       'run', async (data: any): Promise<void> => {
-	try {
+        try {
           const s: string = data.trim()
           if (!testString(s)) {
             this.send('invalid image')
             return
           }
           const out =
-		await execShPromise(
+                await execShPromise(
                   util.format(
                     'podman run --pod %s %s &', this.pod, s
                   ), {
@@ -85,14 +85,14 @@ class BlockApp {
                     stdio: 'ignore'
                   })
           this.send(out.stdout)
-	} catch (e : any) {
+        } catch (e : any) {
           this.send(e.stderr)
-	}
+        }
       })
 
     this.emitter.on(
       'stop', async (data: any) : Promise<void> => {
-	try {
+        try {
           const s : string = data.trim()
           if (!testImage(s)) {
             this.send('invalid image')
@@ -104,17 +104,17 @@ class BlockApp {
                     ))
             this.send(out.stdout)
           }
-	} catch (e : any) {
+        } catch (e : any) {
           this.send(e.stderr)
-	}
+        }
       })
 
     this.emitter.on(
       'blockchain', async (data: any) : Promise<void> => {
-	const { hash: previousHash } = this.blockchain.latestBlock
-	const retval = await this.blockchain.addBlock(data, previousHash)
-	this.publish(retval)
-	this.send(retval)
+        const { hash: previousHash } = this.blockchain.latestBlock
+        const retval = await this.blockchain.addBlock(data, previousHash)
+        this.publish(retval)
+        this.send(retval)
       })
   }
 
