@@ -134,8 +134,10 @@ class BlockApp {
     console.log('Shutting down ' + this.pod)
     try {
       await execShPromise('podman pod rm -f ' + this.pod, true)
+      process.exit(0)
     } catch (e : any) {
       logger.info(e.stderr)
+      process.exit(1)
     }
   }
 }
