@@ -45,72 +45,77 @@ class BlockApp {
   }
 
   addEvents (): void {
-    this.emitter.on('help', () => {
+    this.emitter.on('help', async (): Promise<void> => {
       this.send('help string')
     })
 
-    this.emitter.on('echo', (data: any) => {
+    this.emitter.on('echo', async (data: any): Promise<void> => {
       this.send(data)
     })
 
-    this.emitter.on('test', (data: any) => {
-      this.send(2 * parseInt(data.toString()))
-    })
-
-    this.emitter.on('list', async (data: any) => {
-      try {
-        const out : any = await execShPromise('podman images', true)
-        this.send(out.stdout)
-      } catch (e : any) {
-        this.send(e.stderr)
-      }
-    })
-
-    this.emitter.on('run', async (data: any) => {
-      try {
-        const s: string = data.trim()
-        if (!testString(s)) {
-          this.send('invalid image')
-          return
-        }
-        const out : any =
-              await execShPromise(
-                util.format(
-                  'podman run --pod %s %s &', this.pod, s
-                ), {
-                  detached: true,
-                  stdio: 'ignore'
-                })
-        this.send(out.stdout)
-      } catch (e : any) {
-        this.send(e.stderr)
-      }
-    })
-
-    this.emitter.on('stop', async (data: any) => {
-      try {
-        const s : string = data.trim()
-        if (!testImage(s)) {
-          this.send('invalid image')
-        } else {
-          const out : any =
-                await execShPromise(
-                  util.format(
-                    'podman stop %s &', s
-                  ))
+    this.emitter.on(
+      'test', async (data: any): Promise<void> => {
+	this.send(2 * parseInt(data.toString()))
+      })
+ 
+    this.emitter.on(
+      'list', async (data: any): Promise<void> => {
+	try {
+          const out = await execShPromise('podman images', true)
           this.send(out.stdout)
-        }
-      } catch (e : any) {
-        this.send(e.stderr)
-      }
-    })
+	} catch (e : any) {
+          this.send(e.stderr)
+	}
+      })
+ 
+    this.emitter.on(
+      'run', async (data: any): Promise<void> => {
+	try {
+          const s: string = data.trim()
+          if (!testString(s)) {
+            this.send('invalid image')
+            return
+          }
+          const out =
+		await execShPromise(
+                  util.format(
+                    'podman run --pod %s %s &', this.pod, s
+                  ), {
+                    detached: true,
+                    stdio: 'ignore'
+                  })
+          this.send(out.stdout)
+	} catch (e : any) {
+          this.send(e.stderr)
+	}
+      })
 
-    this.emitter.on('blockchain', async (data: any) => {
-      const { hash: previousHash } = this.blockchain.latestBlock
-      const retval = await this.blockchain.addBlock(data, previousHash)
-      this.publish(retval)
-      this.send(retval)
-    })
+    this.emitter.on(
+      'stop', async (data: any) : Promise<void> => {
+	try {
+          const s : string = data.trim()
+          if (!testImage(s)) {
+            this.send('invalid image')
+          } else {
+            const out : any =
+                  await execShPromise(
+                    util.format(
+                      'podman stop %s &', s
+                    ))
+            this.send(out.stdout)
+          }
+	} catch (e : any) {
+          this.send(e.stderr)
+	}
+      })
+
+    this.emitter.on(
+      'blockchain', async (data: any) : Promise<void> => {
+	const { hash: previousHash } = this.blockchain.latestBlock
+	const retval = await this.blockchain.addBlock(data, previousHash)
+	this.publish(retval)
+	this.send(retval)
+      })
   }
 
   async run () : Promise<void> {
@@ -131,7 +136,7 @@ class BlockApp {
   }
 
   async shutdown () : Promise<void> {
-    console.log('Shutting down ' + this.pod)
+    logger.info('Shutting down ' + this.pod)
     try {
       await execShPromise('podman pod rm -f ' + this.pod, true)
       process.exit(0)
