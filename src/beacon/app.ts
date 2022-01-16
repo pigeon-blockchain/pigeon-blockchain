@@ -4,9 +4,9 @@
 import { execSync } from 'child_process'
 import createLogger from 'logging'
 import 'regenerator-runtime/runtime'
-import util = require('util')
+import util from 'util'
 import blockchain = require('vanilla-blockchain')
-const FlockServer = require('../../lib/server.js')
+import FlockServer from '../../lib/server.js'
 
 const logger = createLogger('blockapp')
 const execShPromise = require('exec-sh').promise

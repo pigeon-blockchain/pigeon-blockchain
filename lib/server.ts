@@ -6,7 +6,7 @@ import { encode, decode } from '@msgpack/msgpack'
 import 'regenerator-runtime/runtime'
 import EventEmitter = require('events')
 
-module.exports = class FlockServer {
+export default class FlockServer {
   replySockId: string
   pubSockId: string
   replySock : zmq.Reply
