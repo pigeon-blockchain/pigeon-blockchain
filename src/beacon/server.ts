@@ -69,6 +69,16 @@ class BlockApp {
       })
 
     this.emitter.on(
+      'ps', async (data: any): Promise<void> => {
+        try {
+          const out = await execShPromise('podman ps', true)
+          this.send(out.stdout)
+        } catch (e : any) {
+          this.send(e.stderr)
+        }
+      })
+
+    this.emitter.on(
       'run', async (data: any): Promise<void> => {
         try {
           const s: string = data.trim()
