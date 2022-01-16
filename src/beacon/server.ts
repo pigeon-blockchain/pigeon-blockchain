@@ -6,6 +6,7 @@ import 'regenerator-runtime/runtime'
 import blockchain = require('vanilla-blockchain')
 import createLogger from 'logging'
 import { execSync } from 'child_process'
+import EventEmitter = require('events')
 const logger = createLogger('blockapp')
 const execShPromise = require('exec-sh').promise
 
@@ -22,6 +23,7 @@ class BlockApp {
   blockchain: any;
   sock: zmq.Reply;
   pubSock: zmq.Publisher;
+  emitter: EventEmitter;
 
   constructor (
     blockchain : any,
@@ -33,6 +35,8 @@ class BlockApp {
     this.blockchain = blockchain
     this.sock = sock
     this.pubSock = pubSock
+    this.emitter = new EventEmitter()
+    this.addEvents()
   };
 
   startup (): string {
@@ -40,75 +44,90 @@ class BlockApp {
     return out.toString().trim()
   }
 
+  addEvents (): void {
+    this.emitter.on('help', () => {
+      this.send('help string')
+    })
+
+    this.emitter.on('echo', (data: any) => {
+      this.send(data)
+    })
+
+    this.emitter.on('test', (data: any) => {
+      this.send(2 * parseInt(data.toString()))
+    })
+
+    this.emitter.on('list', async (data: any) => {
+      try {
+        const out : any = await execShPromise('podman images', true)
+        this.send(out.stdout)
+      } catch (e : any) {
+        this.send(e.stderr)
+      }
+    })
+
+    this.emitter.on('run', async (data: any) => {
+      try {
+        const s: string = data.trim()
+        if (!testString(s)) {
+          this.send('invalid image')
+          return
+        }
+        const out : any =
+              await execShPromise(
+                util.format(
+                  'podman run --pod %s %s &', this.pod, s
+                ), {
+                  detached: true,
+                  stdio: 'ignore'
+                })
+        this.send(out.stdout)
+      } catch (e : any) {
+        this.send(e.stderr)
+      }
+    })
+
+    this.emitter.on('stop', async (data: any) => {
+      try {
+        const s : string = data.trim()
+        if (!testImage(s)) {
+          this.send('invalid image')
+        } else {
+          const out : any =
+                await execShPromise(
+                  util.format(
+                    'podman stop %s &', s
+                  ))
+          this.send(out.stdout)
+        }
+      } catch (e : any) {
+        this.send(e.stderr)
+      }
+    })
+
+    this.emitter.on('blockchain', async (data: any) => {
+      const { hash: previousHash } = this.blockchain.latestBlock
+      const retval = await this.blockchain.addBlock(data, previousHash)
+      this.publish(retval)
+      this.send(retval)
+    })
+  }
+
   async run () : Promise<void> {
     for await (const [msg] of this.sock) {
       const inobj: any = decode(msg)
-      let retval : any
-      if (inobj.cmd === 'help') {
-        retval = 'help string'
-      } else if (inobj.cmd === 'echo') {
-        retval = inobj.data
-      } else if (inobj.cmd === 'test') {
-        const data : any = decode(inobj.data)
-        retval = 2 * parseInt(data.toString())
-      } else if (inobj.cmd === 'list') {
-        try {
-          const out : any = await execShPromise('podman images', true)
-          retval = out.stdout
-        } catch (e : any) {
-          retval = e.stderr
-        }
-      } else if (inobj.cmd === 'ps') {
-        try {
-          const out : any = await execShPromise('podman ps', true)
-          retval = out.stdout
-        } catch (e : any) {
-          retval = e.stderr
-        }
-      } else if (inobj.cmd === 'run') {
-        try {
-          const s : string = inobj.data.trim()
-          if (!testString(s)) {
-            retval = 'invalid image'
-          } else {
-            const out : any =
-                  await execShPromise(
-                    util.format(
-                      'podman run --pod %s %s &', this.pod, s
-                    ), {
-                      detached: true,
-                      stdio: 'ignore'
-                    })
-            retval = out.stdout
-          }
-        } catch (e : any) {
-          retval = e.stderr
-        }
-      } else if (inobj.cmd === 'stop') {
-        try {
-          const s : string = inobj.data.trim()
-          if (!testImage(s)) {
-            retval = 'invalid image'
-          } else {
-            const out : any =
-                  await execShPromise(
-                    util.format(
-                      'podman stop %s &', s
-                    ))
-            retval = out.stdout
-          }
-        } catch (e : any) {
-          retval = e.stderr
-        }
-      } else if (inobj.cmd === 'blockchain') {
-        const { hash: previousHash } = this.blockchain.latestBlock
-        retval = await this.blockchain.addBlock(inobj.data, previousHash)
-        this.pubSock.send(encode(retval))
-      } else {
-        retval = 'unknown command'
+      if (!this.emitter.emit(inobj.cmd, inobj.data)) {
+        this.send('unknown command')
       }
-      await this.sock.send(encode(retval))
     }
+  }
+
+  async send (data: any) {
+    this.sock.send(encode(data))
+  }
+
+  async publish (data: any) {
+    this.pubSock.send(encode(data))
   }
 
   async shutdown () : Promise<void> {
