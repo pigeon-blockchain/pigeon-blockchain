@@ -3,7 +3,7 @@
     "scripts": {
         "build": "tsc --build",
         "clean": "tsc --build --clean",
-        "distclean": "tsc --build --clean; rm -fr *~ node_modules store *.log package-lock.json", 
+        "distclean": "rm -fr *~ node_modules store *.js *.log *-lock.json",
         "lint": "eslint --fix *.ts",
         "start": "./server.js &"
     },

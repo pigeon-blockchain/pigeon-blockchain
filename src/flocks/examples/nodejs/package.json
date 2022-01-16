@@ -1,7 +1,8 @@
 {
     "name": "example-nodejs-flock",
     "scripts": {
-	"build": "buildah unshare ./build-flock.sh"
+      "build": "buildah unshare ./build-flock.sh",
+      "distclean": "rm -f package-lock.json"
     }
 }
 

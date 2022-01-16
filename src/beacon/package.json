@@ -1,9 +1,9 @@
 {
-    "name": "flock-manager",
+    "name": "beacon",
     "scripts": {
         "build": "tsc --build ; chmod a+x cli.js app.js",
         "clean": "tsc --build --clean",
-        "distclean": "rm -fr node_modules store *.log package-lock.json", 
+        "distclean": "rm -fr *.js node_modules store *.log package-lock.json", 
         "lint": "eslint --fix *.ts",
         "start": "./server.js &"
     },
