@@ -26,8 +26,13 @@ class Cli {
     console.log('Producer bound to port 3000')
     const asyncReadline = function () {
       rl.question('Command: ', async function (answer) {
-        const [cmd, data] = mySplit(answer, ' ', 2)
-        sock.send(encode({ cmd: cmd, data: data }))
+        const [cmdfull, data] = mySplit(answer, ' ', 2)
+        const [cmd, subcmd] = mySplit(cmdfull, '.', 2)
+        sock.send(encode({
+          cmd: cmd,
+          subcmd: subcmd,
+          data: data
+        }))
         const [result] = await sock.receive()
         console.log(decode(result))
         asyncReadline()
