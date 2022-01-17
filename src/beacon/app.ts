@@ -29,6 +29,7 @@ class BlockApp extends FlockServer {
     super(replySockId, pubSockId)
     const out = execSync('podman pod create')
     this.pod = out.toString().trim()
+    this.blockchain = {}
     logger.info('created pod ' + this.pod)
     process.on('SIGTERM', () => { this.shutdown() })
     process.on('SIGINT', () => { this.shutdown() })
@@ -36,7 +37,7 @@ class BlockApp extends FlockServer {
 
   async initialize (): Promise<void> {
     await super.initialize()
-    this.blockchain = await await new blockchain.AsyncBlockchain()
+    this.blockchain.default = await new blockchain.AsyncBlockchain()
     this.emitter.on('help', async (): Promise<void> => {
       this.send('help string')
     })
@@ -112,9 +113,10 @@ class BlockApp extends FlockServer {
       })
 
     this.emitter.on(
-      'blockchain', async (inobj: any) : Promise<void> => {
-        const { hash: previousHash } = this.blockchain.latestBlock
-        const retval = await this.blockchain.addBlock(
+      'block', async (inobj: any) : Promise<void> => {
+        const blockchain = this.blockchain.default
+        const { hash: previousHash } = blockchain.latestBlock
+        const retval = await blockchain.addBlock(
           inobj.data, previousHash
         )
         this.publish(retval)
