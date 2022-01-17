@@ -38,7 +38,7 @@ export default class FlockServer {
     }
     for await (const [msg] of this.replySock) {
       const inobj: any = decode(msg)
-      if (!this.emitter.emit(inobj.cmd, inobj.data)) {
+      if (!this.emitter.emit(inobj.cmd, inobj)) {
         this.send('unknown command')
       }
     }

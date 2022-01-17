@@ -41,17 +41,17 @@ class BlockApp extends FlockServer {
       this.send('help string')
     })
 
-    this.emitter.on('echo', async (data: any): Promise<void> => {
-      this.send(data)
+    this.emitter.on('echo', async (inobj: any): Promise<void> => {
+      this.send(inobj.data)
     })
 
     this.emitter.on(
-      'test', async (data: any): Promise<void> => {
-        this.send(2 * parseInt(data.toString()))
+      'test', async (inobj: any): Promise<void> => {
+        this.send(2 * parseInt(inobj.data.toString()))
       })
 
     this.emitter.on(
-      'list', async (data: any): Promise<void> => {
+      'list', async (inobj: any): Promise<void> => {
         try {
           const out = await execShPromise('podman images', true)
           this.send(out.stdout)
@@ -61,7 +61,7 @@ class BlockApp extends FlockServer {
       })
 
     this.emitter.on(
-      'ps', async (data: any): Promise<void> => {
+      'ps', async (inobj: any): Promise<void> => {
         try {
           const out = await execShPromise('podman ps', true)
           this.send(out.stdout)
@@ -71,9 +71,9 @@ class BlockApp extends FlockServer {
       })
 
     this.emitter.on(
-      'run', async (data: any): Promise<void> => {
+      'run', async (inobj: any): Promise<void> => {
         try {
-          const s: string = data.trim()
+          const s: string = inobj.data.trim()
           if (!testString(s)) {
             this.send('invalid image')
             return
@@ -93,9 +93,9 @@ class BlockApp extends FlockServer {
       })
 
     this.emitter.on(
-      'stop', async (data: any) : Promise<void> => {
+      'stop', async (inobj: any) : Promise<void> => {
         try {
-          const s : string = data.trim()
+          const s : string = inobj.data.trim()
           if (!testImage(s)) {
             this.send('invalid image')
           } else {
@@ -112,9 +112,11 @@ class BlockApp extends FlockServer {
       })
 
     this.emitter.on(
-      'blockchain', async (data: any) : Promise<void> => {
+      'blockchain', async (inobj: any) : Promise<void> => {
         const { hash: previousHash } = this.blockchain.latestBlock
-        const retval = await this.blockchain.addBlock(data, previousHash)
+        const retval = await this.blockchain.addBlock(
+          inobj.data, previousHash
+        )
         this.publish(retval)
         this.send(retval)
       })
