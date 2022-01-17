@@ -19,9 +19,14 @@ function testImage (s : string) : boolean {
   return /^[a-z0-9_]+$/.test(s)
 }
 
+/** Class implementing Blockchain server
+ * @extends FlockServer
+ */
+
 class BlockApp extends FlockServer {
   pod: string;
   blockchain: any;
+  debug: boolean;
   constructor (
     replySockId: string,
     pubSockId: string
@@ -30,6 +35,7 @@ class BlockApp extends FlockServer {
     const out = execSync('podman pod create')
     this.pod = out.toString().trim()
     this.blockchain = {}
+    this.debug = false
     logger.info('created pod ' + this.pod)
     process.on('SIGTERM', () => { this.shutdown() })
     process.on('SIGINT', () => { this.shutdown() })
@@ -121,6 +127,16 @@ class BlockApp extends FlockServer {
         )
         this.publish(retval)
         this.send(retval)
+      })
+    this.emitter.on(
+      'debug', async (inobj: any) : Promise<void> => {
+        if (inobj.data === 'on') {
+          this.debug = true
+          this.send('debug on')
+        } else if (inobj.data === 'off') {
+          this.debug = false
+          this.send('debug off')
+        }
       })
   }
 
