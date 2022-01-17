@@ -41,6 +41,17 @@ class BlockApp extends FlockServer {
     process.on('SIGINT', () => { this.shutdown() })
   }
 
+  async getBlockchain (name: string) {
+    if (name === '' || name === undefined) {
+      name = 'root'
+    }
+    if (this.blockchain[name] === undefined) {
+      this.blockchain[name] =
+        await new blockchain.AsyncBlockchain({ filename: name })
+    }
+    return this.blockchain[name]
+  }
+
   async initialize (): Promise<void> {
     await super.initialize()
     this.blockchain.default = await new blockchain.AsyncBlockchain()
@@ -120,7 +131,7 @@ class BlockApp extends FlockServer {
 
     this.emitter.on(
       'block', async (inobj: any) : Promise<void> => {
-        const blockchain = this.blockchain.default
+        const blockchain = await this.getBlockchain(inobj.subcmd)
         const { hash: previousHash } = blockchain.latestBlock
         const retval = await blockchain.addBlock(
           inobj.data, previousHash
