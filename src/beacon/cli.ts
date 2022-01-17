@@ -19,20 +19,25 @@ function mySplit (
   return parts.slice(0, n - 1).concat([parts.slice(n - 1).join(delimiter)])
 }
 
-async function run () {
-  const sock = new zmq.Request()
-  sock.connect('tcp://127.0.0.1:3000')
-  console.log('Producer bound to port 3000')
-  const asyncReadline = function () {
-    rl.question('Command: ', async function (answer) {
-      const [cmd, data] = mySplit(answer, ' ', 2)
-      sock.send(encode({ cmd: cmd, data: data }))
-      const [result] = await sock.receive()
-      console.log(decode(result))
-      asyncReadline()
-    })
+class Cli {
+  run () : void {
+    const sock = new zmq.Request()
+    sock.connect('tcp://127.0.0.1:3000')
+    console.log('Producer bound to port 3000')
+    const asyncReadline = function () {
+      rl.question('Command: ', async function (answer) {
+        const [cmd, data] = mySplit(answer, ' ', 2)
+        sock.send(encode({ cmd: cmd, data: data }))
+        const [result] = await sock.receive()
+        console.log(decode(result))
+        asyncReadline()
+      })
+    }
+    asyncReadline()
   }
-  asyncReadline()
 }
 
-run()
+if (typeof require !== 'undefined' && require.main === module) {
+  const cli = new Cli()
+  cli.run()
+}
