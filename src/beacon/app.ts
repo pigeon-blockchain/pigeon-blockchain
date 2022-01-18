@@ -28,10 +28,9 @@ class BlockApp extends FlockServer {
   blockchain: any;
   debug: boolean;
   constructor (
-    replySockId: string,
-    pubSockId: string
+    replySockId: string
   ) {
-    super(replySockId, pubSockId)
+    super(replySockId)
     const out = execSync('podman pod create')
     this.pod = out.toString().trim()
     this.blockchain = {}
@@ -136,9 +135,9 @@ class BlockApp extends FlockServer {
         const retval = await blockchain.addBlock(
           inobj.data, previousHash
         )
-        this.publish(retval)
         this.send(retval)
       })
+
     this.emitter.on(
       'debug', async (inobj: any) : Promise<void> => {
         if (inobj.data === 'on') {
@@ -165,8 +164,6 @@ class BlockApp extends FlockServer {
 
 if (typeof require !== 'undefined' && require.main === module) {
   logger.info('starting BlockApp')
-  const app = new BlockApp(
-    'tcp://127.0.0.1:3000',
-    'tcp://127.0.0.1:3001')
+  const app = new BlockApp('tcp://127.0.0.1:3000')
   app.run()
 }

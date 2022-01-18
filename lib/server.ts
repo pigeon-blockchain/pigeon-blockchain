@@ -8,28 +8,20 @@ import EventEmitter = require('events')
 
 export default class FlockServer {
   replySockId: string
-  pubSockId: string
-  replySock : zmq.Reply
-  pubSock : zmq.Publisher
+  replySock: zmq.Reply
   emitter: EventEmitter
   initialized: boolean
-
   constructor (
-    replySockId: string,
-    pubSockId: string
+    replySockId: string
   ) {
     this.replySockId = replySockId
-    this.pubSockId = pubSockId
     this.replySock = new zmq.Reply()
-    this.pubSock = new zmq.Publisher()
-
     this.emitter = new EventEmitter()
     this.initialized = false
   };
 
   async initialize (): Promise<void> {
     await this.replySock.bind(this.replySockId)
-    await this.pubSock.bind(this.pubSockId)
   }
 
   async run () : Promise<void> {
@@ -48,8 +40,14 @@ export default class FlockServer {
     this.replySock.send(encode(data))
   }
 
-  async publish (data: any) {
-    this.pubSock.send(encode(data))
+  async sendSock (sock: any, data: any) {
+    sock.send(encode(data))
+  }
+
+  async publishSock (connId: string) {
+    const pubSock = new zmq.Publisher()
+    await pubSock.bind(connId)
+    return pubSock
   }
 
   async shutdown () : Promise<void> {
