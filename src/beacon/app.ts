@@ -6,7 +6,7 @@ import createLogger from 'logging'
 import 'regenerator-runtime/runtime'
 import util from 'util'
 import blockchain = require('vanilla-blockchain')
-import FlockServer from '../../lib/server.js'
+import FlockServer from 'pigeon-sdk/js/flock-server.js'
 
 const logger = createLogger('blockapp')
 const execShPromise = require('exec-sh').promise
