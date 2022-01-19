@@ -9,7 +9,6 @@
     "start": "./bin/start.sh"
   },
   "workspaces": [
-    "lib",
     "src/beacon",
     "src/flocks/examples/c",
     "src/flocks/examples/nodejs"
