@@ -11,6 +11,7 @@
   },
   "workspaces": [
     "src/beacon",
+    "src/manager",
     "src/flocks/examples/c",
     "src/flocks/examples/js"
   ]

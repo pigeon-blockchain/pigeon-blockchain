@@ -1,5 +1,5 @@
 {
-    "name": "manager",
+    "name": "beacon",
     "scripts": {
         "build": "tsc --build ; chmod a+x cli.js app.js",
         "clean": "tsc --build --clean",
@@ -12,7 +12,8 @@
         "logging": "^3.3.0",
         "pigeon-sdk": "github:pigeon-blockchain/pigeon-sdk",
         "regenerator-runtime": "^0.13.9",
-        "util": "^0.12.4",
+        "vanilla-blockchain": "^0.2.10",
+        "vanilla-storage": "^0.3.16",
         "zeromq": "^6.0.0-beta.6"
     },
     "devDependencies": {
@@ -24,7 +25,6 @@
         "eslint-plugin-import": "^2.25.4",
         "eslint-plugin-node": "^11.1.0",
         "eslint-plugin-promise": "^5.2.0",
-        "exec-sh": "^0.4.0",
         "typescript": "^4.5.4"
     }
 }

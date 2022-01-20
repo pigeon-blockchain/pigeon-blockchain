@@ -5,8 +5,7 @@ import { execSync } from 'child_process'
 import createLogger from 'logging'
 import 'regenerator-runtime/runtime'
 import util from 'util'
-import blockchain = require('vanilla-blockchain')
-import FlockServer from '../../lib/server.js'
+import FlockServer from 'pigeon-sdk/js/flock-server.js'
 
 const logger = createLogger('blockapp')
 const execShPromise = require('exec-sh').promise
@@ -19,13 +18,12 @@ function testImage (s : string) : boolean {
   return /^[a-z0-9_]+$/.test(s)
 }
 
-/** Class implementing Blockchain server
+/** Class implementing FlockManager
  * @extends FlockServer
  */
 
-class BlockApp extends FlockServer {
+class FlockManager extends FlockServer {
   pod: string;
-  blockchain: any;
   debug: boolean;
   constructor (
     replySockId: string
@@ -33,27 +31,15 @@ class BlockApp extends FlockServer {
     super(replySockId)
     const out = execSync('podman pod create')
     this.pod = out.toString().trim()
-    this.blockchain = {}
     this.debug = false
     logger.info('created pod ' + this.pod)
     process.on('SIGTERM', () => { this.shutdown() })
     process.on('SIGINT', () => { this.shutdown() })
   }
 
-  async getBlockchain (name: string) {
-    if (name === '' || name === undefined) {
-      name = 'root'
-    }
-    if (this.blockchain[name] === undefined) {
-      this.blockchain[name] =
-        await new blockchain.AsyncBlockchain({ filename: name })
-    }
-    return this.blockchain[name]
-  }
 
   async initialize (): Promise<void> {
     await super.initialize()
-    this.blockchain.default = await new blockchain.AsyncBlockchain()
     this.emitter.on('help', async (): Promise<void> => {
       this.send('help string')
     })
@@ -129,16 +115,6 @@ class BlockApp extends FlockServer {
       })
 
     this.emitter.on(
-      'block', async (inobj: any) : Promise<void> => {
-        const blockchain = await this.getBlockchain(inobj.subcmd)
-        const { hash: previousHash } = blockchain.latestBlock
-        const retval = await blockchain.addBlock(
-          inobj.data, previousHash
-        )
-        this.send(retval)
-      })
-
-    this.emitter.on(
       'debug', async (inobj: any) : Promise<void> => {
         if (inobj.data === 'on') {
           this.debug = true
@@ -163,7 +139,7 @@ class BlockApp extends FlockServer {
 }
 
 if (typeof require !== 'undefined' && require.main === module) {
-  logger.info('starting BlockApp')
-  const app = new BlockApp('tcp://127.0.0.1:3000')
+  logger.info('starting FlockManager')
+  const app = new FlockManager('tcp://127.0.0.1:3000')
   app.run()
 }
