@@ -84,11 +84,8 @@ class FlockManager extends FlockServer {
           const out =
                 await execShPromise(
                   util.format(
-                    'podman run --pod %s %s &', this.pod, s
-                  ), {
-                    detached: true,
-                    stdio: 'ignore'
-                  })
+                    'podman run -d --pod %s %s', this.pod, s
+                  ), true)
           this.send(out.stdout)
         } catch (e : any) {
           this.send(e.stderr)
@@ -105,7 +102,7 @@ class FlockManager extends FlockServer {
             const out =
                   await execShPromise(
                     util.format(
-                      'podman stop %s &', s
+                      'podman stop -d %s', s
                     ))
             this.send(out.stdout)
           }
