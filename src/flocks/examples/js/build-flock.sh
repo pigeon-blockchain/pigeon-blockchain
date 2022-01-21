@@ -6,7 +6,7 @@ set -o errexit
 container=$(buildah from fedora)
 mountpoint=$(buildah mount $container)
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-name=example-nodejs-flock
+name=example-js-flock
 
 # Labels are part of the "buildah config" command
 buildah config --label maintainer="Joseph C Wang <joe@pigeonchain.co>" $container
@@ -17,7 +17,7 @@ mkdir -p $mountpoint/opt
 cp -r $script_dir/$name $mountpoint/opt
 mv $mountpoint/tmp/run.sh $mountpoint/opt/$name
 chmod a+x $mountpoint/opt/$name
-buildah run $container /tmp/build.sh
+buildah run $container /tmp/build.sh $name
 
 # Entrypoint, too, is a “buildah config” command
 buildah config --cmd /opt/$name/run.sh $container

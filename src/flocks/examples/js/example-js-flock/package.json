@@ -1,5 +1,5 @@
 {
-    "name": "flock-manager",
+    "name": "example-js-flock",
     "scripts": {
         "build": "tsc --build ; chmod a+x server.js",
         "clean": "tsc --build --clean",
