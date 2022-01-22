@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 // SPDX-License-Identifier: MIT
 
-import { execSync } from 'child_process'
 import winston from 'winston'
 import 'regenerator-runtime/runtime'
 import util from 'util'
@@ -33,14 +32,10 @@ function testImage (s : string) : boolean {
  */
 
 class FlockManager extends FlockServer {
-  pod: string;
   constructor (
     replySockId: string
   ) {
     super(replySockId)
-    const out = execSync('podman pod create')
-    this.pod = out.toString().trim()
-    logger.info('created pod ' + this.pod)
     process.on('SIGTERM', () => { this.shutdown() })
     process.on('SIGINT', () => { this.shutdown() })
   }
@@ -91,7 +86,7 @@ class FlockManager extends FlockServer {
           const out =
                 await execShPromise(
                   util.format(
-                    'podman run -d --pod %s %s', this.pod, s
+                    'podman run -d %s', s
                   ), true)
           this.send(out.stdout)
         } catch (e : any) {
@@ -131,9 +126,8 @@ class FlockManager extends FlockServer {
   }
 
   async shutdown () : Promise<void> {
-    logger.info('Shutting down ' + this.pod)
+    logger.info('Shutting down')
     try {
-      await execShPromise('podman pod rm -f ' + this.pod, true)
       process.exit(0)
     } catch (e : any) {
       logger.info(e.stderr)
