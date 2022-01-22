@@ -12,8 +12,8 @@
         "logging": "^3.3.0",
         "pigeon-sdk": "github:pigeon-blockchain/pigeon-sdk",
         "regenerator-runtime": "^0.13.9",
-        "vanilla-blockchain": "^0.2.10",
-        "vanilla-storage": "^0.3.16",
+        "vanilla-blockchain": "github:pigeon-blockchain/vanilla-blockchain",
+        "vanilla-storage": "github:pigeon-blockchain/vanilla-storage",
         "zeromq": "^6.0.0-beta.6"
     },
     "devDependencies": {
