@@ -2,12 +2,22 @@
 // SPDX-License-Identifier: MIT
 
 import { execSync } from 'child_process'
-import createLogger from 'logging'
+import winston from 'winston'
 import 'regenerator-runtime/runtime'
 import util from 'util'
 import FlockServer from 'pigeon-sdk/js/flock-server.js'
 
-const logger = createLogger('blockapp')
+const transports = {
+  file: new winston.transports.File({ filename: 'server.log' })
+}
+
+const logger = winston.createLogger({
+  level: 'info',
+  transports: [
+    transports.file
+  ]
+})
+
 const execShPromise = require('exec-sh').promise
 
 function testString (s : string) : boolean {
@@ -24,19 +34,16 @@ function testImage (s : string) : boolean {
 
 class FlockManager extends FlockServer {
   pod: string;
-  debug: boolean;
   constructor (
     replySockId: string
   ) {
     super(replySockId)
     const out = execSync('podman pod create')
     this.pod = out.toString().trim()
-    this.debug = false
     logger.info('created pod ' + this.pod)
     process.on('SIGTERM', () => { this.shutdown() })
     process.on('SIGINT', () => { this.shutdown() })
   }
-
 
   async initialize (): Promise<void> {
     await super.initialize()
@@ -114,10 +121,10 @@ class FlockManager extends FlockServer {
     this.emitter.on(
       'debug', async (inobj: any) : Promise<void> => {
         if (inobj.data === 'on') {
-          this.debug = true
+          transports.file.level = 'debug'
           this.send('debug on')
         } else if (inobj.data === 'off') {
-          this.debug = false
+          transports.file.level = 'info'
           this.send('debug off')
         }
       })

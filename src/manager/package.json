@@ -3,16 +3,16 @@
     "scripts": {
         "build": "tsc --build ; chmod a+x cli.js app.js",
         "clean": "tsc --build --clean",
-        "distclean": "rm -fr *.js node_modules store *.log package-lock.json", 
+        "distclean": "rm -fr *.js node_modules store *.log package-lock.json",
         "lint": "eslint --fix *.ts",
         "start": "./server.js &"
     },
     "dependencies": {
         "@msgpack/msgpack": "^2.7.1",
-        "logging": "^3.3.0",
         "pigeon-sdk": "github:pigeon-blockchain/pigeon-sdk",
         "regenerator-runtime": "^0.13.9",
         "util": "^0.12.4",
+        "winston": "^3.4.0",
         "zeromq": "^6.0.0-beta.6"
     },
     "devDependencies": {
