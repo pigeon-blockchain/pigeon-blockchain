@@ -1,8 +1,22 @@
 var assert = require('assert');
-describe('Array', function() {
-  describe('#indexOf()', function() {
-    it('should return -1 when the value is not present', function() {
-      assert.equal([1, 2, 3].indexOf(4), -1);
+const Cli = require('../cli')
+const FlockManager = require('../app')
+
+describe('Manager', function() {
+  let cli, app;
+  before(async function() {
+    app = new FlockManager.FlockManager('tcp://127.0.0.1:3000')
+    cli = new Cli.Cli('tcp://127.0.0.1:3000')
+    app.run()
+  })
+  after(function() {
+    app.shutdown()
+  })
+
+  describe('hello world', function() {
+    it('return hello world', async function() {
+      const r = await cli.send('echo hello world')
+      assert.equal(r, 'hello world');
     });
   });
 });
