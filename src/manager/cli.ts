@@ -32,7 +32,7 @@ function mySplit (
   return parts.slice(0, n - 1).concat([parts.slice(n - 1).join(delimiter)])
 }
 
-class Cli {
+export class Cli {
   sock: zmq.Request;
   rl
   constructor (
@@ -50,7 +50,7 @@ class Cli {
   async send (command: string): Promise<any> {
     const [cmdfull, data] = mySplit(command, ' ', 2)
     const [cmd, subcmd] = mySplit(cmdfull, '.', 2)
-    this.sock.send(encode({
+    await this.sock.send(encode({
       cmd: cmd,
       subcmd: subcmd,
       data: data
