@@ -23,11 +23,6 @@ const logger = createLogger({
   ]
 })
 
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
-})
-
 function mySplit (
   string: string,
   delimiter: string,
@@ -39,12 +34,17 @@ function mySplit (
 
 class Cli {
   sock: zmq.Request;
+  rl
   constructor (
     connectId: string
   ) {
     this.sock = new zmq.Request()
     this.sock.connect(connectId)
     logger.log('info', 'Cli bound to %s', connectId)
+    this.rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout
+    })
   }
 
   async send (command: string): Promise<any> {
@@ -61,7 +61,7 @@ class Cli {
 
   async readline (): Promise<void> {
     const me = this
-    rl.question('Command: ', async function (answer) {
+    this.rl.question('Command: ', async function (answer) {
       const result = await me.send(answer)
       console.log(result)
       me.readline()
