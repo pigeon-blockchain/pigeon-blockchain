@@ -2,6 +2,7 @@
 // SPDX-License-Identifier: MIT
 
 import { createLogger, format, transports } from 'winston'
+import { execSync } from 'child_process'
 import 'regenerator-runtime/runtime'
 import util from 'util'
 import FlockServer from 'pigeon-sdk/js/flock-server.js'
@@ -36,10 +37,12 @@ function testImage (s : string) : boolean {
  */
 
 class FlockManager extends FlockServer {
+  flockInfo: any
   constructor (
     replySockId: string
   ) {
     super(replySockId)
+    this.flockInfo = {}
     process.on('SIGTERM', () => { this.shutdown() })
     process.on('SIGINT', () => { this.shutdown() })
   }
@@ -87,12 +90,13 @@ class FlockManager extends FlockServer {
             this.send('invalid image')
             return
           }
-          const out =
-                await execShPromise(
-                  util.format(
-                    'podman run -d %s', s
-                  ), true)
-          this.send(out.stdout)
+          const out = execSync(util.format(
+            'podman run -d -P %s', s
+          ))
+          const flockId = out.toString().trim()
+          this.send(flockId)
+          logger.log('info', 'running %s', flockId)
+          this.flockInfo[flockId] = {}
         } catch (e : any) {
           this.send(e.stderr)
         }
@@ -108,7 +112,7 @@ class FlockManager extends FlockServer {
             const out =
                   await execShPromise(
                     util.format(
-                      'podman stop -d %s', s
+                      'podman stop %s', s
                     ))
             this.send(out.stdout)
           }
@@ -131,12 +135,13 @@ class FlockManager extends FlockServer {
 
   async shutdown () : Promise<void> {
     logger.info('Shutting down')
-    try {
-      process.exit(0)
-    } catch (e : any) {
-      logger.info(e.stderr)
-      process.exit(1)
-    }
+    Promise.all(Object.keys(this.flockInfo).map(id => {
+      logger.log('info', 'stopping %s', id)
+      return execShPromise(util.format(
+        'podman stop %s', id
+      ), true)
+    }))
+    process.exit(0)
   }
 }
 
