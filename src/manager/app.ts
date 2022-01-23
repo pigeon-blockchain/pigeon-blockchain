@@ -1,19 +1,23 @@
 #!/usr/bin/env node
 // SPDX-License-Identifier: MIT
 
-import winston from 'winston'
+import { createLogger, format, transports } from 'winston'
 import 'regenerator-runtime/runtime'
 import util from 'util'
 import FlockServer from 'pigeon-sdk/js/flock-server.js'
 
-const transports = {
-  file: new winston.transports.File({ filename: 'server.log' })
+const myTransports = {
+  file: new transports.File({ filename: 'server.log' })
 }
 
-const logger = winston.createLogger({
+const logger = createLogger({
   level: 'info',
+  format: format.combine(
+    format.splat(),
+    format.simple()
+  ),
   transports: [
-    transports.file
+    myTransports.file
   ]
 })
 
@@ -116,10 +120,10 @@ class FlockManager extends FlockServer {
     this.emitter.on(
       'debug', async (inobj: any) : Promise<void> => {
         if (inobj.data === 'on') {
-          transports.file.level = 'debug'
+          myTransports.file.level = 'debug'
           this.send('debug on')
         } else if (inobj.data === 'off') {
-          transports.file.level = 'info'
+          myTransports.file.level = 'info'
           this.send('debug off')
         }
       })
