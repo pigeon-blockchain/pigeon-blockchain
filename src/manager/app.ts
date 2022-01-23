@@ -36,18 +36,20 @@ function testImage (s : string) : boolean {
  * @extends FlockServer
  */
 
-class FlockManager extends FlockServer {
+export class FlockManager extends FlockServer {
   flockInfo: any
   constructor (
     replySockId: string
   ) {
     super(replySockId)
+
     this.flockInfo = {}
     process.on('SIGTERM', () => { this.shutdown() })
     process.on('SIGINT', () => { this.shutdown() })
   }
 
   async initialize (): Promise<void> {
+    logger.log('info', 'server initializing')
     await super.initialize()
     this.emitter.on('help', async (): Promise<void> => {
       this.send('help string')
