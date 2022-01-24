@@ -30,5 +30,8 @@ describe('Manager', function () {
       const r = await cli.send('ps')
       assert.ok(r.includes('localhost/pigeon-beacon'))
     })
+    it('stop --all', async function () {
+      await cli.send('stop --all')
+    })
   })
 })

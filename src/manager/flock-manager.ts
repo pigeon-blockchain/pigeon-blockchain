@@ -107,7 +107,10 @@ export class FlockManager extends FlockServer {
       'stop', async (inobj: any) : Promise<void> => {
         try {
           const s : string = inobj.data.trim()
-          if (!testImage(s)) {
+          if (s === '--all') {
+            this.stopAll()
+            this.send('')
+          } else if (!testImage(s)) {
             this.send('invalid image')
           } else {
             const out =
@@ -134,14 +137,18 @@ export class FlockManager extends FlockServer {
       })
   }
 
-  async shutdown () : Promise<void> {
-    logger.info('Shutting down')
+  async stopAll () : Promise<void> {
     Promise.all(Object.keys(this.flockInfo).map(id => {
       logger.log('info', 'stopping %s', id)
       return execShPromise(util.format(
         'podman stop %s', id
       ), true)
     }))
+  }
+
+  async shutdown () : Promise<void> {
+    logger.info('Shutting down')
+    await this.stopAll()
     process.exit(0)
   }
 }
