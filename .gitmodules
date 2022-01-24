@@ -1,0 +1,3 @@
+[submodule "src/pigeon-sdk"]
+	path = src/pigeon-sdk
+	url = https://github.com/pigeon-blockchain/pigeon-sdk.git

@@ -11,7 +11,7 @@
     "dependencies": {
         "@msgpack/msgpack": "^2.7.1",
         "@types/yargs": "^17.0.8",
-        "pigeon-sdk": "github:pigeon-blockchain/pigeon-sdk",
+        "pigeon-sdk": "../pigeon-sdk",
         "util": "^0.12.4",
         "winston": "^3.4.0",
         "yargs": "github:yargs/yargs",

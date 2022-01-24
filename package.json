@@ -11,6 +11,7 @@
     "start": "./bin/start.sh"
   },
   "workspaces": [
+    "src/pigeon-sdk/js",
     "src/beacon",
     "src/manager",
     "src/flocks/examples/c",
