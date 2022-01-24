@@ -3,7 +3,6 @@
 
 import { createLogger, format, transports } from 'winston'
 import { execSync } from 'child_process'
-import 'regenerator-runtime/runtime'
 import util from 'util'
 import FlockServer from 'pigeon-sdk/js/flock-server.js'
 
