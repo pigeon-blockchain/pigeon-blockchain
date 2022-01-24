@@ -3,8 +3,6 @@
 
 import { createLogger, format, transports } from 'winston'
 import { execSync } from 'child_process'
-import yargs from 'yargs/yargs'
-import { hideBin } from 'yargs/helpers'
 import util from 'util'
 import FlockServer from 'pigeon-sdk/js/flock-server.js'
 
@@ -153,23 +151,13 @@ export class FlockManager extends FlockServer {
     await this.stopAll()
     process.exit(0)
   }
+
+  static startup (argv: any) : void {
+    const app = new FlockManager(argv.port.toString())
+    app.run()
+  }
 }
 
 if (typeof require !== 'undefined' && require.main === module) {
-  // eslint-disable-next-line no-unused-vars
-  const argv = yargs(hideBin(process.argv)).command(
-    '$0 [port]',
-    'the default command',
-    (yargs) => {
-      return yargs.positional('port', {
-        describe: 'port value',
-        type: 'string',
-        default: 'tcp://127.0.0.1:3000'
-      })
-    },
-    (argv) => {
-      logger.log('info', 'starting FlockManager at %s', argv.port)
-      const app = new FlockManager(argv.port.toString())
-      app.run()
-    }).argv
+  FlockManager.runServer()
 }
