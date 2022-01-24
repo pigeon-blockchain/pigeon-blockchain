@@ -1,6 +1,6 @@
 const assert = require('assert')
 const Cli = require('../cli')
-const FlockManager = require('../app')
+const FlockManager = require('../flock-manager')
 
 describe('Manager', function () {
   let cli, app
