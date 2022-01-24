@@ -3,6 +3,8 @@
 
 import zmq = require('zeromq')
 import readline = require('readline');
+import yargs from 'yargs/yargs'
+import { hideBin } from 'yargs/helpers'
 import { encode, decode } from '@msgpack/msgpack'
 import { createLogger, format, transports } from 'winston'
 
@@ -74,6 +76,19 @@ export class Cli {
 }
 
 if (typeof require !== 'undefined' && require.main === module) {
-  const cli = new Cli('tcp://localhost:3000')
-  cli.run()
+  // eslint-disable-next-line no-unused-vars
+  const argv = yargs(hideBin(process.argv)).command(
+    '$0 [port]',
+    'the default command',
+    (yargs) => {
+      return yargs.positional('port', {
+        describe: 'port value',
+        type: 'string',
+        default: 'tcp://127.0.0.1:3000'
+      })
+    },
+    (argv) => {
+      const cli = new Cli(argv.port)
+      cli.run()
+    }).argv
 }
