@@ -6,7 +6,7 @@ describe('BlockApp', function () {
   let app
   before(async function () {
     app = new BlockApp.BlockApp('tcp://127.0.0.1:3000')
-    cli = new FlockCli.Cli('tcp://127.0.0.1:3000')
+    cli = new FlockCli.FlockCli('tcp://127.0.0.1:3000')
     app.run()
   })
   after(function () {

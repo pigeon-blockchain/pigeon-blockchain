@@ -4,7 +4,7 @@
 import { createLogger, format, transports } from 'winston'
 import { execSync } from 'child_process'
 import util from 'util'
-import FlockServer from 'pigeon-sdk/js/flock-server.js'
+import FlockBase from 'pigeon-sdk/js/flock-base.js'
 
 const myTransports = {
   file: new transports.File({ filename: 'server.log' })
@@ -35,7 +35,7 @@ function testImage (s : string) : boolean {
  * @extends FlockServer
  */
 
-export class FlockManager extends FlockServer {
+export class FlockManager extends FlockBase {
   flockInfo: any
   constructor (
     replySockId: string
@@ -52,10 +52,6 @@ export class FlockManager extends FlockServer {
     await super.initialize()
     this.emitter.on('help', async (): Promise<void> => {
       this.send('help string')
-    })
-
-    this.emitter.on('echo', async (inobj: any): Promise<void> => {
-      this.send(inobj.data)
     })
 
     this.emitter.on(

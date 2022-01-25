@@ -1,12 +1,12 @@
 const assert = require('assert')
-const Cli = require('pigeon-sdk/js/flock-cli')
+const FlockCli = require('pigeon-sdk/js/flock-cli')
 const FlockManager = require('../flock-manager')
 
 describe('Manager', function () {
   let cli, app
   before(async function () {
     app = new FlockManager.FlockManager('tcp://127.0.0.1:3000')
-    cli = new Cli.Cli('tcp://127.0.0.1:3000')
+    cli = new FlockCli.FlockCli('tcp://127.0.0.1:3000')
     app.run()
   })
   after(function () {
