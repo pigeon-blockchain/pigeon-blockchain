@@ -1,12 +1,15 @@
 {
     "name": "manager",
     "scripts": {
-        "build": "tsc --build ; chmod a+x cli.js flock-manager.js",
+        "build": "tsc --build ; chmod a+x flock-manager.js",
         "clean": "tsc --build --clean",
         "distclean": "rm -fr *.js node_modules store *.log package-lock.json",
         "lint": "eslint --fix *.ts test/*.js",
         "start": "./server.js &",
         "test": "mocha"
+    },
+    "bin": {
+        "flock-manager": "./flock-manager.js"
     },
     "dependencies": {
         "@msgpack/msgpack": "^2.7.1",

@@ -1,5 +1,5 @@
 const assert = require('assert')
-const Cli = require('../cli')
+const Cli = require('pigeon-sdk/js/flock-cli')
 const FlockManager = require('../flock-manager')
 
 describe('Manager', function () {
