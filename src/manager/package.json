@@ -14,7 +14,7 @@
         "pigeon-sdk": "../pigeon-sdk",
         "util": "^0.12.4",
         "winston": "^3.4.0",
-        "yargs": "github:yargs/yargs",
+        "yargs": "^17.3.1",
         "zeromq": "^6.0.0-beta.6"
     },
     "devDependencies": {
