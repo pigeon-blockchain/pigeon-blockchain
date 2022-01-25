@@ -4,7 +4,7 @@
         "prepare": "tsc --build ; chmod a+x app.js",
         "build": "tsc --build ; chmod a+x app.js",
         "clean": "tsc --build --clean",
-        "distclean": "rm -fr *.js node_modules store *.log package-lock.json",
+        "distclean": "rm -fr *~ *.js node_modules store *.log package-lock.json",
         "lint": "eslint --fix *.ts",
         "start": "./server.js &",
         "test": "mocha"
