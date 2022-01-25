@@ -6,7 +6,7 @@
     "clean": "npm run clean --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "distclean": "rm -rf node_modules *-lock.json ; npm run distclean --workspaces --if-present",
-    "start": "./bin/start.sh"
+    "start": "./bin/flock-start.js"
   },
   "include-workspace-root": true,
   "bin": {
