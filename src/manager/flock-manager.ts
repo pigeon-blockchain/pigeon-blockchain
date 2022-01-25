@@ -78,6 +78,18 @@ export class FlockManager extends FlockBase {
           this.send(e.stderr)
         }
       })
+    this.emitter.on(
+      'port', async (inobj: any): Promise<void> => {
+        const s: string = inobj.data.trim()
+        const out = execSync(util.format(
+          'podman port %s', s
+        ))
+        const portString = out.toString().trim()
+        const r = portString.split(/\r?\n/).map((x: string) =>
+          x.split(/\s+->\s+/))
+        this.send(r)
+      }
+    )
 
     this.emitter.on(
       'run', async (inobj: any): Promise<void> => {

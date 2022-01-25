@@ -18,5 +18,8 @@
     "src/manager",
     "src/flocks/examples/c",
     "src/flocks/examples/js"
-  ]
+  ],
+  "dependencies": {
+    "chai": "^4.3.5"
+  }
 }
