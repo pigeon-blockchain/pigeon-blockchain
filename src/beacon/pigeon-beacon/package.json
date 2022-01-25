@@ -1,16 +1,18 @@
 {
     "name": "beacon",
     "scripts": {
+        "prepare": "tsc --build ; chmod a+x cli.js app.js",
         "build": "tsc --build ; chmod a+x cli.js app.js",
         "clean": "tsc --build --clean",
         "distclean": "rm -fr *.js node_modules store *.log package-lock.json",
         "lint": "eslint --fix *.ts",
-        "start": "./server.js &"
+        "start": "./server.js &",
+        "test": "mocha"
     },
     "dependencies": {
         "@msgpack/msgpack": "^2.7.1",
         "libp2p": "^0.35.8",
-        "logging": "^3.3.0",
+        "mocha": "^9.2.0",
         "pigeon-sdk": "github:pigeon-blockchain/pigeon-sdk",
         "regenerator-runtime": "^0.13.9",
         "vanilla-blockchain": "github:pigeon-blockchain/vanilla-blockchain",

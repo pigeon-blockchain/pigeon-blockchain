@@ -1,18 +1,15 @@
 #!/usr/bin/env node
 // SPDX-License-Identifier: MIT
 
-import createLogger from 'logging'
 import 'regenerator-runtime/runtime'
 import blockchain = require('vanilla-blockchain')
 import FlockServer from 'pigeon-sdk/js/flock-server'
-
-const logger = createLogger('blockapp')
 
 /** Class implementing Blockchain server
  * @extends FlockServer
  */
 
-class BlockApp extends FlockServer {
+export class BlockApp extends FlockServer {
   blockchain: any;
   debug: boolean;
   constructor (
@@ -66,10 +63,13 @@ class BlockApp extends FlockServer {
         }
       })
   }
+
+  static startup (argv: any) : void {
+    const app = new BlockApp(argv.port.toString())
+    app.run()
+  }
 }
 
 if (typeof require !== 'undefined' && require.main === module) {
-  logger.info('starting BlockApp')
-  const app = new BlockApp('tcp://127.0.0.1:3000')
-  app.run()
+  BlockApp.runServer()
 }
