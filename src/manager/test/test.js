@@ -40,5 +40,9 @@ describe('Manager', function () {
     it('stop --all', async function () {
       await cli.send('stop --all')
     })
+    it('version', async () => {
+      const r = await cli.send('version')
+      assert.equal(r, 'FlockManager')
+    })
   })
 })

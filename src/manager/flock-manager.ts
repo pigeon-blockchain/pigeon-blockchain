@@ -160,6 +160,10 @@ export class FlockManager extends FlockBase {
     process.exit(0)
   }
 
+  version() : string {
+    return 'FlockManager'
+  }
+
   static startup (argv: any) : void {
     const app = new FlockManager(argv.port.toString())
     app.run()
