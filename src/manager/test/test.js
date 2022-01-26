@@ -6,16 +6,17 @@ let cli, app
 describe('Manager', function () {
   before(async function () {
     app = new FlockManager.FlockManager('tcp://127.0.0.1:3000')
-    cli = new FlockCli.FlockCli('tcp://127.0.0.1:3000')
+    cli = new FlockCli.FlockCli()
+    cli.port('tcp://127.0.0.1:3000')
     app.run()
   })
-  
+
   after(async function () {
     app.shutdown()
   })
 
   describe('echo', function () {
-    let beacon;
+    let beacon
     it('echo', async function () {
       const r = await cli.send('echo hello world')
       assert.equal(r, 'hello world')

@@ -37,11 +37,12 @@ function testImage (s : string) : boolean {
 
 export class FlockManager extends FlockBase {
   flockInfo: any
+  dataVolume: string
   constructor (
     replySockId: string
   ) {
     super(replySockId)
-
+    this.dataVolume = 'flock-data'
     this.flockInfo = {}
     process.on('SIGTERM', () => { this.shutdown() })
     process.on('SIGINT', () => { this.shutdown() })
@@ -100,7 +101,7 @@ export class FlockManager extends FlockBase {
             return
           }
           const out = execSync(util.format(
-            'podman run -d -P %s', s
+            'podman run -d -P -v %s:/data %s', this.dataVolume, s
           ))
           const flockId = out.toString().trim()
           this.send(flockId)
@@ -160,7 +161,7 @@ export class FlockManager extends FlockBase {
     process.exit(0)
   }
 
-  version() : string {
+  version () : string {
     return 'FlockManager'
   }
 
