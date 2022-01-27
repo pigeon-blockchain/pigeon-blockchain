@@ -4,15 +4,17 @@
         "build": "tsc --build ; chmod a+x flock-manager.js",
         "clean": "tsc --build --clean",
         "distclean": "rm -fr *.js node_modules store *.log package-lock.json",
-        "lint": "eslint --fix *.ts test/*.js",
+        "lint": "eslint --fix *.ts test/*.ts",
         "start": "./server.js &",
-        "test": "mocha"
+        "test": "mocha --exit"
     },
     "bin": {
         "flock-manager": "./flock-manager.js"
     },
     "dependencies": {
         "@msgpack/msgpack": "^2.7.1",
+        "@types/expect": "^24.3.0",
+        "@types/mocha": "^9.1.0",
         "@types/yargs": "^17.0.8",
         "pigeon-sdk": "../pigeon-sdk",
         "util": "^0.12.4",

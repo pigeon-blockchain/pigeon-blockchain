@@ -4,7 +4,7 @@
 import { createLogger, format, transports } from 'winston'
 import { execSync } from 'child_process'
 import util from 'util'
-import FlockBase from 'pigeon-sdk/js/flock-base.js'
+import { FlockBase } from 'pigeon-sdk/js/flock-base'
 
 const myTransports = {
   file: new transports.File({ filename: 'server.log' })
