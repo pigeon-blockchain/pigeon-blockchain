@@ -1,11 +1,11 @@
 #!/bin/bash
-dnf install -y tar gzip gcc make
+dnf install --setopt=install_weak_deps=False -y tar gzip gcc make
 dnf clean all
 tar xvzf /tmp/hello-2.10.tar.gz -C /opt
 
 mkdir -p /home/user
 pushd /home/user
-dnf install -y tar gzip gcc make
+dnf install --setopt=install_weak_deps=False -y tar gzip gcc make
 
 pushd /opt/hello-2.10 > /dev/null
 ./configure
