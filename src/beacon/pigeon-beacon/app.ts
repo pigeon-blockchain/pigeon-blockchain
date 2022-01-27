@@ -3,7 +3,7 @@
 
 import 'regenerator-runtime/runtime'
 import blockchain = require('vanilla-blockchain')
-import FlockBase from 'pigeon-sdk/js/flock-base'
+import { FlockBase } from 'pigeon-sdk/js/flock-base'
 
 /** Class implementing Blockchain server
  * @extends FlockServer
