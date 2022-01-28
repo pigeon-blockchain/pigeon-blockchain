@@ -3,7 +3,6 @@
 
 import { createLogger, format, transports } from 'winston'
 import { execSync } from 'child_process'
-import util from 'util'
 import { FlockBase } from 'pigeon-sdk/js/flock-base'
 
 const myTransports = {
@@ -81,14 +80,16 @@ export class FlockManager extends FlockBase {
       })
     this.emitter.on(
       'port', async (inobj: any): Promise<void> => {
-        const s: string = inobj.data.trim()
-        const out = execSync(util.format(
-          'podman port %s', s
-        ))
-        const portString = out.toString().trim()
-        const r = portString.split(/\r?\n/).map((x: string) =>
-          x.split(/\s+->\s+/))
-        this.send(r)
+        const s = inobj.data.trim()
+        try {
+          const out = execSync(`podman port ${s}`)
+          const portString = out.toString().trim()
+          const r = portString.split(/\r?\n/).map((x: string) =>
+            x.split(/\s+->\s+/))
+          this.send(r)
+        } catch (err) {
+          this.send(err)
+        }
       }
     )
 
@@ -100,9 +101,9 @@ export class FlockManager extends FlockBase {
             this.send('invalid image')
             return
           }
-          const out = execSync(util.format(
-            'podman run -d -P -v %s:/data %s', this.dataVolume, s
-          ))
+          const out = execSync(
+            `podman run -d -P -v ${this.dataVolume}:/data ${s}`
+          )
           const flockId = out.toString().trim()
           this.send(flockId)
           logger.log('info', 'running %s', flockId)
@@ -124,9 +125,8 @@ export class FlockManager extends FlockBase {
           } else {
             const out =
                   await execShPromise(
-                    util.format(
-                      'podman stop %s', s
-                    ))
+                      `podman stop ${s}`
+                  )
             this.send(out.stdout)
           }
         } catch (e : any) {
@@ -149,9 +149,9 @@ export class FlockManager extends FlockBase {
   async stopAll () : Promise<void> {
     Promise.all(Object.keys(this.flockInfo).map(id => {
       logger.log('info', 'stopping %s', id)
-      return execShPromise(util.format(
-        'podman stop %s', id
-      ), true)
+      return execShPromise(
+        `podman stop ${id}`, true
+      )
     }))
   }
 
