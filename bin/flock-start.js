@@ -5,7 +5,7 @@ const { FlockCli } = require('../src/pigeon-sdk/js/flock-cli')
 const { FlockManager } = require('../src/manager/flock-manager')
 let cli, app
 
-app = new FlockManager('tcp://127.0.0.1:3000')
+app = new FlockManager({conport: 'tcp://127.0.0.1:3000'})
 cli = new FlockCli()
 app.run()
 

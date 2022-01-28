@@ -39,9 +39,9 @@ export class FlockManager extends FlockBase {
   flockInfo: any
   dataVolume: string
   constructor (
-    replySockId: string
+    obj: any
   ) {
-    super(replySockId)
+    super(obj)
     this.dataVolume = 'flock-data'
     this.flockInfo = {}
     process.on('SIGTERM', () => { this.shutdown() })
@@ -166,7 +166,7 @@ export class FlockManager extends FlockBase {
   }
 
   static startup (argv: any) : void {
-    const app = new FlockManager(argv.port.toString())
+    const app = new FlockManager(argv)
     app.run()
   }
 }

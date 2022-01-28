@@ -6,7 +6,9 @@ let cli: FlockCli
 
 describe('Manager', function () {
   before(async function () {
-    app = new FlockManager('tcp://127.0.0.1:3000')
+    app = new FlockManager({
+      conport: 'tcp://127.0.0.1:3000'
+    })
     cli = new FlockCli()
     app.run()
     await cli.portConnect('default', 'tcp://127.0.0.1:3000')

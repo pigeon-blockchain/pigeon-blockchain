@@ -13,9 +13,9 @@ export class BlockApp extends FlockBase {
   blockchain: any;
   debug: boolean;
   constructor (
-    replySockId: string
+    obj: any
   ) {
-    super(replySockId)
+    super(obj)
     this.blockchain = {}
     this.debug = false
   }
@@ -64,8 +64,12 @@ export class BlockApp extends FlockBase {
       })
   }
 
+  version () : string {
+    return 'Beacon'
+  }
+
   static startup (argv: any) : void {
-    const app = new BlockApp(argv.port.toString())
+    const app = new BlockApp(argv)
     app.run()
   }
 }

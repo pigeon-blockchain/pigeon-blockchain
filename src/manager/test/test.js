@@ -10,7 +10,9 @@ let app;
 let cli;
 describe('Manager', function () {
     before(async function () {
-        app = new flock_manager_1.FlockManager('tcp://127.0.0.1:3000');
+        app = new flock_manager_1.FlockManager({
+            conport: 'tcp://127.0.0.1:3000'
+        });
         cli = new flock_cli_1.FlockCli();
         app.run();
         await cli.portConnect('default', 'tcp://127.0.0.1:3000');

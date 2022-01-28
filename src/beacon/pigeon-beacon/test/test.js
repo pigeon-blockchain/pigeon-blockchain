@@ -5,7 +5,9 @@ const FlockCli = require('pigeon-sdk/js/flock-cli')
 describe('BlockApp', function () {
   let app
   before(async function () {
-    app = new BlockApp.BlockApp('tcp://127.0.0.1:3000')
+    app = new BlockApp.BlockApp({
+      conport: 'tcp://127.0.0.1:3000'
+    })
     cli = new FlockCli.FlockCli('tcp://127.0.0.1:3000')
     app.run()
   })
