@@ -39,12 +39,12 @@ describe('Manager', function () {
     let port : string
     it('port', async () => {
       const r = await cli.send('port ' + beacon)
-      portrep.forEach((l) => {
+      r.forEach((l: any) => {
 	if (l[0] === '3000/tcp') {
 	  port = l[1].split(':')[1]
 	}
-      }
-		     })
+      })
+    })
     it('.port-connect', async () => {
       await cli.send('.port-connect blockchain ' + port)
     })
