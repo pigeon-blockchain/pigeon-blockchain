@@ -12,8 +12,13 @@ app.run()
 async function main() {
   await cli.portConnect('default', 'tcp://127.0.0.1:3000')
   const beacon = await cli.send('run localhost/pigeon-beacon')
-  let port = await cli.send('port ' + beacon)
-  port = port[0][1].split(':')[1]
+  let portrep = await cli.send('port ' + beacon)
+  let port
+  portrep.forEach((l) => {
+    if (l[0] === '3000/tcp') {
+      port = l[1].split(':')[1]
+    }
+  })
   await cli.portConnect('beacon', 'tcp://127.0.0.1:' + port)
   cli.readline()
 }
