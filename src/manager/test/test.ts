@@ -24,11 +24,11 @@ describe('Manager', function () {
       const r = await cli.send('echo hello world')
       assert.equal(r, 'hello world')
     })
-    it('list', async () =>  {
+    it('list', async () => {
       const r = await cli.send('list')
       assert.ok(r.includes('localhost/pigeon-beacon'))
     })
-    it('run', async () =>  {
+    it('run', async () => {
       beacon = await cli.send('run localhost/pigeon-beacon')
       assert.ok(beacon.match(/[0-9a-f]+/))
     })
@@ -40,9 +40,9 @@ describe('Manager', function () {
     it('port', async () => {
       const r = await cli.send('port ' + beacon)
       r.forEach((l: any) => {
-	if (l[0] === '3000/tcp') {
-	  port = l[1].split(':')[1]
-	}
+        if (l[0] === '3000/tcp') {
+          port = l[1].split(':')[1]
+        }
       })
     })
     it('.port-connect', async () => {
