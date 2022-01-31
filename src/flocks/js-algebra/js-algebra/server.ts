@@ -20,5 +20,5 @@ export class JsAlgebra extends FlockBase {
 }
 
 if (typeof require !== 'undefined' && require.main === module) {
-  ExampleJsFlock.runServer()
+  JsAlgebra.runServer()
 }
