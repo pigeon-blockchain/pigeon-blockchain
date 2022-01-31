@@ -1,17 +1,20 @@
 #!/usr/bin/env node
-import zmq = require('zeromq')
-import { encode, decode } from '@msgpack/msgpack'
+import { FlockBase } from 'pigeon-sdk/js/flock-base'
 
-async function run () {
-  const sock = new zmq.Reply()
-  await sock.bind('tcp://127.0.0.1:3000')
+export class ExampleJsFlock extends FlockBase {
+  async initialize (): Promise<void> {
+    await super.initialize()
+    this.emitter.on('test', async (inobj: any): Promise<void> => {
+      const retval = 2 * parseInt(inobj.data.toString(), 10)
+      await this.send(retval)
+    })
+  }
 
-  for await (const [msg] of sock) {
-    const inobj: any = decode(msg)
-    const data: any = decode(inobj.data)
-    const retval = 2 * parseInt(data.toString(), 10)
-    await sock.send(encode(retval))
+  version () : string {
+    return 'ExampleJsFlock'
   }
 }
 
-run()
+if (typeof require !== 'undefined' && require.main === module) {
+  ExampleJsFlock.runServer()
+}

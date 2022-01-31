@@ -3,7 +3,7 @@
     "scripts": {
         "build": "tsc --build ; chmod a+x server.js",
         "clean": "tsc --build --clean",
-        "lint": "tslint *.ts",
+        "lint": "eslint --fix *.ts",
         "start": "node server.js"
     },
     "dependencies": {
