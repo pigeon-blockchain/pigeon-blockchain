@@ -3,7 +3,7 @@
 set -o errexit
 
 # Create a container
-container=$(buildah from fedora)
+container=$(buildah from flock-base-js)
 mountpoint=$(buildah mount $container)
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 name=js-algebra
@@ -21,7 +21,6 @@ buildah run $container /tmp/build.sh $name
 
 # Entrypoint, too, is a “buildah config” command
 buildah config --cmd /opt/$name/run.sh $container
-buildah config --port 3000/tcp $container
 
 # Finally saves the running container to an image
 buildah commit --squash --format docker $container $name:latest
