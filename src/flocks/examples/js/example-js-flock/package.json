@@ -1,14 +1,17 @@
 {
-    "name": "example-js-flock",
-    "scripts": {
-        "build": "tsc --build ; chmod a+x server.js",
-        "clean": "tsc --build --clean",
-        "lint": "eslint --fix *.ts",
-        "start": "node server.js"
+  "name": "example-js-flock",
+  "scripts": {
+    "prepare": "tsc --build ; chmod a+x server.js",
+    "build": "tsc --build ; chmod a+x server.js",
+    "clean": "tsc --build --clean",
+    "lint": "eslint --fix *.ts",
+    "start": "node server.js",
+    "distclean": "rm -fr *~ node_modules store *.js *.log *-lock.json"
     },
     "dependencies": {
       "@msgpack/msgpack": "^2.7.1",
-      "pigeon-sdk": "github:pigeon-blockchain/pigeon-sdk"
+      "pigeon-sdk": "github:pigeon-blockchain/pigeon-sdk",
+      "zeromq": "^6.0.0-beta.6"
     },
     "devDependencies": {
         "@types/node": "^17.0.8",
