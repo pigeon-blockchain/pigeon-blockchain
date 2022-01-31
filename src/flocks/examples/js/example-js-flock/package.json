@@ -7,9 +7,8 @@
         "start": "node server.js"
     },
     "dependencies": {
-        "@msgpack/msgpack": "^2.7.1",
-        "util": "^0.12.4",
-        "zeromq": "^6.0.0-beta.6"
+      "@msgpack/msgpack": "^2.7.1",
+      "pigeon-sdk": "github:pigeon-blockchain/pigeon-sdk"
     },
     "devDependencies": {
         "@types/node": "^17.0.8",
