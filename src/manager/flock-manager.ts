@@ -1,24 +1,13 @@
 #!/usr/bin/env node
 // SPDX-License-Identifier: MIT
 
-import { createLogger, format, transports } from 'winston'
+import winston from 'winston'
 import { execSync } from 'child_process'
-import { FlockBase } from 'pigeon-sdk/js/flock-base'
+import { FlockBase } from '../pigeon-sdk/js/flock-base'
 
 const myTransports = {
-  file: new transports.File({ filename: 'server.log' })
+  file: new winston.transports.File({ filename: 'server.log' })
 }
-
-const logger = createLogger({
-  level: 'info',
-  format: format.combine(
-    format.splat(),
-    format.simple()
-  ),
-  transports: [
-    myTransports.file
-  ]
-})
 
 const execShPromise = require('exec-sh').promise
 
@@ -45,10 +34,11 @@ export class FlockManager extends FlockBase {
     this.flockInfo = {}
     process.on('SIGTERM', () => { this.shutdown() })
     process.on('SIGINT', () => { this.shutdown() })
+    this.logger.add(myTransports.file)
   }
 
   async initialize (): Promise<void> {
-    logger.log('info', 'server initializing')
+    this.logger.log('info', 'server initializing')
     await super.initialize()
     this.emitter.on('help', async (): Promise<void> => {
       this.send('help string')
@@ -106,7 +96,7 @@ export class FlockManager extends FlockBase {
           )
           const flockId = out.toString().trim()
           this.send(flockId)
-          logger.log('info', 'running %s', flockId)
+          this.logger.log('info', 'running %s', flockId)
           this.flockInfo[flockId] = {}
         } catch (e : any) {
           this.send(e.stderr)
@@ -148,7 +138,7 @@ export class FlockManager extends FlockBase {
 
   async stopAll () : Promise<void> {
     Promise.all(Object.keys(this.flockInfo).map(id => {
-      logger.log('info', 'stopping %s', id)
+      this.logger.log('info', 'stopping %s', id)
       return execShPromise(
         `podman stop ${id}`, true
       )
@@ -156,7 +146,7 @@ export class FlockManager extends FlockBase {
   }
 
   async shutdown () : Promise<void> {
-    logger.info('Shutting down')
+    this.logger.info('Shutting down')
     await this.stopAll()
     process.exit(0)
   }
