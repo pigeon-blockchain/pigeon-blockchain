@@ -154,11 +154,6 @@ export class FlockManager extends FlockBase {
   version () : string {
     return 'FlockManager'
   }
-
-  static startup (argv: any) : void {
-    const app = new FlockManager(argv)
-    app.run()
-  }
 }
 
 if (typeof require !== 'undefined' && require.main === module) {
