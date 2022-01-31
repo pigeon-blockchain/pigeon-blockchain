@@ -13,14 +13,11 @@
     "clean-unused": "./bin/clean-unused.sh"
   },
   "workspaces": [
-    "bin",
+    "scripts",
     "src/pigeon-sdk/js",
     "src/beacon",
     "src/manager",
     "src/flocks/examples/c",
     "src/flocks/examples/js"
-  ],
-  "dependencies": {
-    "chai": "^4.3.5"
-  }
+  ]
 }
