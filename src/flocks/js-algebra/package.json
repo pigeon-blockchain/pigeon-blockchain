@@ -1,5 +1,5 @@
 {
-    "name": "example-nodejs-flock",
+    "name": "js-algebra-flock",
     "scripts": {
       "build": "buildah unshare ./build-flock.sh",
       "distclean": "rm -f package-lock.json *~"
