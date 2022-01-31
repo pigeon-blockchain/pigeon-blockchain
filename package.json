@@ -2,7 +2,7 @@
   "name": "pigeon-blockchain",
   "scripts": {
     "prepare": "npm run build --workspaces --if-present",
-    "test": "npm run test --workspaces --if-present",
+    "test": "npm run test --workspaces --if-present ; mocha --exit",
     "clean": "npm run clean --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "distclean": "rm -rf node_modules *-lock.json ; npm run distclean --workspaces --if-present",
@@ -13,6 +13,7 @@
     "clean-unused": "./bin/clean-unused.sh"
   },
   "workspaces": [
+    "bin",
     "src/pigeon-sdk/js",
     "src/beacon",
     "src/manager",
