@@ -4,7 +4,10 @@ set -o errexit
 pushd /opt/$1
 npm install
 npm run build
-dnf remove -y tar gcc make npm git
+rm /etc/dnf/protected.d/*
+npm prune --production
+npm cache clean --force
+dnf remove -y tar gcc make npm git shadow-utils sudo
 dnf clean all
 popd
 
