@@ -17,7 +17,6 @@ async function runConnect(image: string, connect: string) {
 describe('Test', () => {
   before(async () => {
     app.run()
-    app.runBeacon()
     await cli.portConnect('default', 'tcp://127.0.0.1:3000')
   })
   after(async () => {
@@ -25,8 +24,6 @@ describe('Test', () => {
   })
   it('port', async() => {
     await runConnect('localhost/pigeon-beacon', 'beacon')
-  })
-  it('beacon/block', async() => {
     const r = await cli.send('beacon/block {"foo": "bar"}')
     assert.deepEqual(r.data, {foo: 'bar'})
   })

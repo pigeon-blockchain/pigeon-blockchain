@@ -21,9 +21,6 @@ export class BlockApp extends FlockBase {
   }
 
   async getBlockchain (name: string) {
-    if (name === '' || name === undefined) {
-      name = 'root'
-    }
     if (this.blockchain[name] === undefined) {
       this.blockchain[name] =
         await new blockchain.AsyncBlockchain({ filename: name })
@@ -44,12 +41,17 @@ export class BlockApp extends FlockBase {
 
     this.emitter.on(
       'block', async (inobj: any) : Promise<void> => {
-        const blockchain = await this.getBlockchain(inobj.subcmd)
+        let name = inobj.subcmd
+        if (name === '' || name === undefined) {
+          name = 'root'
+        }
+        const blockchain = await this.getBlockchain(name)
         const { hash: previousHash } = blockchain.latestBlock
         const retval = await blockchain.addBlock(
           inobj.data, previousHash
         )
         this.send(retval)
+        this.publish(name, retval)
       })
 
     this.emitter.on(
