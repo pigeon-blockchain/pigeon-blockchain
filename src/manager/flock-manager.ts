@@ -121,7 +121,7 @@ export class FlockManager extends FlockBase {
             return
           }
           const out = execSync(
-            `podman run -d -P -v ${this.dataVolume}:/data ${s}`
+            `podman run -d -P -v ${this.dataVolume}:/data --net slirp4netns:allow_host_loopback=true  ${s}`
           )
           const flockId = out.toString().trim()
           this.send(flockId)
