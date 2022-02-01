@@ -2,6 +2,7 @@
   "name": "pigeon-blockchain-scripts",
   "scripts": {
     "prepare": "tsc --build",
+    "build": "tsc --build ; chmod a+x flock-start.js",
     "test": "mocha --exit",
     "clean": "tsc --build --clean",
     "lint": "eslint --fix *.ts test/*.ts",

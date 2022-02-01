@@ -84,6 +84,35 @@ export class FlockManager extends FlockBase {
     )
 
     this.emitter.on(
+      'port-connect-string', async (inobj: any): Promise<void> => {
+        const s = inobj.data.trim()
+        try {
+          const out = execSync(`podman port ${s}`)
+          const portString = out.toString().trim()
+          const r = portString.split(/\r?\n/).map((x: string) =>
+            x.split(/\s+->\s+/))
+          let conPort: string = ''
+          let pubPort: string = ''
+          r.forEach((l: any) => {
+            if (l[0] === '3000/tcp') {
+              conPort = l[1].split(':')[1]
+            } else if (l[0] === '3001/tcp') {
+              pubPort = l[1].split(':')[1]
+            }
+          })
+          if (pubPort === '') {
+            this.send([`tcp://127.0.0.1:${conPort}`])
+          } else {
+            this.send([`tcp://127.0.0.1:${conPort}`,
+                      `tcp://127.0.0.1:${pubPort}`])
+          }
+        } catch (err) {
+          this.send(err)
+        }
+      }
+    )
+
+    this.emitter.on(
       'run', async (inobj: any): Promise<void> => {
         try {
           const s: string = inobj.data.trim()
