@@ -10,9 +10,12 @@ app.runBeacon()
 
 async function main () {
   await cli.portConnect('default', 'tcp://127.0.0.1:3000')
-  const beacon = await cli.send('run localhost/pigeon-beacon')
-  const portConnectString = await cli.send(`port-connect-string ${beacon}`)
+  let p = await cli.send('run localhost/pigeon-beacon')
+  let portConnectString = await cli.send(`port-connect-string ${p}`)
   await cli.portConnect('beacon', portConnectString[0])
+  p = await cli.send('run localhost/js-algebra')
+  portConnectString = await cli.send(`port-connect-string ${p}`)
+  await cli.portConnect('js-algebra', portConnectString[0])
   cli.readline()
 }
 

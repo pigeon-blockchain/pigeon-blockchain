@@ -4,24 +4,33 @@ import { FlockCli } from '../../src/pigeon-sdk/js/flock-cli'
 import { FlockManager } from '../../src/manager/flock-manager'
 import assert from 'assert'
 
+const app = new FlockManager({ conport: 'tcp://127.0.0.1:3000' })
+const cli = new FlockCli()
+
+async function runConnect(image: string, connect: string) {
+  const p = await cli.send(`run ${image}`)
+  const portConnectString = await cli.send(`port-connect-string ${p}`)
+  await cli.portConnect(connect, portConnectString[0])
+  return p
+}
+
 describe('Test', () => {
-  let app: FlockManager, cli: FlockCli
   before(async () => {
-    app = new FlockManager({ conport: 'tcp://127.0.0.1:3000' })
-    cli = new FlockCli()
     app.run()
     app.runBeacon()
     await cli.portConnect('default', 'tcp://127.0.0.1:3000')
   })
+  after(async () => {
+    app.stopAll()
+  })
   it('port', async() => {
-    const beacon = await cli.send('run localhost/pigeon-beacon')
-    const portrep = await cli.send(`port ${beacon}`)
-    const portConnectString = await cli.send(`port-connect-string ${beacon}`)
-     await cli.portConnect('beacon', portConnectString[0])
+    await runConnect('localhost/pigeon-beacon', 'beacon')
   })
   it('beacon/block', async() => {
     const r = await cli.send('beacon/block {"foo": "bar"}')
     assert.deepEqual(r.data, {foo: 'bar'})
   })
+  it('jsalgebra', async() => {
+    await runConnect('localhost/js-algebra', 'js-algebra')
+  })
 })
-
