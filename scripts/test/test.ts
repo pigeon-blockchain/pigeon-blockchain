@@ -9,8 +9,8 @@ const cli = new FlockCli()
 
 async function runConnect(image: string, connect: string) {
   const p = await cli.send(`run ${image}`)
-  const portConnectString = await cli.send(`port-connect-string ${p}`)
-  await cli.portConnect(connect, portConnectString[0])
+  const portConnect = await cli.send(`port-connect ${p}`)
+  await cli.portConnect(connect, portConnect)
   return p
 }
 

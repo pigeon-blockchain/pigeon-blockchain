@@ -84,7 +84,7 @@ export class FlockManager extends FlockBase {
     )
 
     this.emitter.on(
-      'port-connect-string', async (inobj: any): Promise<void> => {
+      'port-connect', async (inobj: any): Promise<void> => {
         const s = inobj.data.trim()
         try {
           const out = execSync(`podman port ${s}`)
@@ -101,10 +101,9 @@ export class FlockManager extends FlockBase {
             }
           })
           if (pubPort === '') {
-            this.send([`tcp://127.0.0.1:${conPort}`])
+            this.send([conPort])
           } else {
-            this.send([`tcp://127.0.0.1:${conPort}`,
-                      `tcp://127.0.0.1:${pubPort}`])
+            this.send([conPort, pubPort])
           }
         } catch (err) {
           this.send(err)

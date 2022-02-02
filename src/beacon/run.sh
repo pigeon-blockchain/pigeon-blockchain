@@ -1,6 +1,4 @@
 #!/bin/bash
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-pushd $SCRIPT_DIR >> /dev/null
+script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 mkdir -p /data/pigeon-beacon/store
-./app.js --conport tcp://0.0.0.0:3000 --pubport tcp://0.0.0.0:3001
-popd >> /dev/null
+exec $script_dir/app.js --conport tcp://0.0.0.0:3000 --pubport tcp://0.0.0.0:3001 --beaconprefix tcp://host.containers.internal
