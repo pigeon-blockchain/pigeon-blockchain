@@ -19,11 +19,12 @@ async function runConnect(image: string, connect: string) {
   console.log(portConnect)
   await cli.portConnect(connect, portConnect[0])
   if (beaconPortConnect !== undefined) {
-    await cli.send(`beacon-connect ["${beaconPortConnect[0]}", "${beaconPortConnect[1]}"]`)
+    const r = await cli.send(`${connect}/beacon-connect [${beaconPortConnect[0]}, ${beaconPortConnect[1]}]`)
+    console.log(r)
   }
   if (connect === 'beacon') {
     beaconPortConnect = portConnect
-    console.log(`beacon-connect ["${beaconPortConnect[0]}", "${beaconPortConnect[1]}"]`)
+    console.log(`beacon-connect [${beaconPortConnect[0]}, ${beaconPortConnect[1]}]`)
   }
 
   return p
