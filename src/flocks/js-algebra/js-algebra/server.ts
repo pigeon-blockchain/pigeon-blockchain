@@ -46,7 +46,7 @@ export class JsAlgebra extends FlockBase {
       return false
     }
     if (data.cmd === "js-algebra.eval") {
-      await this.beaconSend({
+      const result = await this.beaconSend({
         cmd: 'block',
         subcmd: filter,
         data: {
@@ -54,6 +54,7 @@ export class JsAlgebra extends FlockBase {
           result: Algebrite.eval(data.eval).toString()
         }
       })
+      this.logger.log('info', result)
     }
     return true
   }
