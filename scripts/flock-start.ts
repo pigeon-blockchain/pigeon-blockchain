@@ -8,10 +8,10 @@ const app = new FlockManager({
   beaconprefix: 'tcp://127.0.0.1'
 })
 const cli = new FlockCli()
-let beaconPortConnect : any;
+let beaconPortConnect : any
 app.run()
 
-async function runConnect(image: string, connect: string) {
+async function runConnect (image: string, connect: string) {
   const p = await cli.send(`run ${image}`)
   console.log(`starting ${image}`)
   console.log(`  ${p}`)

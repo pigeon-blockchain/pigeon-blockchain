@@ -7,6 +7,10 @@ const myTransports = {
   file: new winston.transports.File({ filename: 'server.log' })
 }
 
+function isObject(a: any) {
+  return (!!a) && (a.constructor === Object);
+}
+
 export class JsAlgebra extends FlockBase {
   constructor (obj: any) {
     super(obj)
@@ -21,8 +25,40 @@ export class JsAlgebra extends FlockBase {
     this.emitter.on('eval', async (inobj: any): Promise<void> => {
       await this.send(Algebrite.eval(inobj.data).toString())
     })
+    this.emitter.on(
+      'subscribe',
+      async (inobj: any): Promise<void> => {
+        this.beaconSubscribe(inobj.data)
+        this.send(`subscribed to ${inobj.data}`)
+      })
+    this.emitter.on(
+      'unsubscribe',
+      async (inobj: any): Promise<void> => {
+        this.beaconUnsubscribe(inobj.data)
+        this.send(`unsubscribed to ${inobj.data}`)
+      })
+
+  }
+  
+  async beaconProcessTxn (filter: string, inobj: any) : Promise<boolean> {
+    const data = inobj.data;
+    if (!isObject(data)) {
+      return false
+    }
+    if (data.cmd === "js-algebra.eval") {
+      await this.beaconSend({
+        cmd: 'block',
+        subcmd: filter,
+        data: {
+          eval: data.eval,
+          result: Algebrite.eval(data.eval).toString()
+        }
+      })
+    }
+    return true
   }
 
+  
   version () : string {
     return 'JsAlgebra'
   }
