@@ -1,5 +1,5 @@
 {
-    "name": "pigeon-beacon",
+    "name": "columba-beacon",
     "scripts": {
         "build": "buildah unshare ./build-flock.sh",
         "clean": "tsc --build --clean",

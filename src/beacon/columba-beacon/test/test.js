@@ -1,6 +1,6 @@
 const assert = require('assert')
 const BlockApp = require('../app')
-const FlockCli = require('pigeon-sdk/js/flock-cli')
+const FlockCli = require('columba-sdk/js/flock-cli')
 
 describe('BlockApp', function () {
   let app

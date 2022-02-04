@@ -9,7 +9,7 @@ mountpoint=$(buildah mount $container)
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 # Labels are part of the "buildah config" command
-buildah config --label maintainer="Joseph C Wang <joe@pigeonchain.co>" $container
+buildah config --label maintainer="Joseph C Wang <joe@columbachain.co>" $container
 
 cp $script_dir/*.sh $mountpoint/tmp
 chmod a+x $mountpoint/tmp/*.sh

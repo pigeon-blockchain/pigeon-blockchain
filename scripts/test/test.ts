@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { FlockCli } from '../../src/pigeon-sdk/js/flock-cli'
+import { FlockCli } from '../../src/columba-sdk/js/flock-cli'
 import { FlockManager } from '../../src/manager/flock-manager'
 import assert from 'assert'
 
@@ -39,7 +39,7 @@ describe('Test', () => {
     app.stopAll()
   })
   it('port', async () => {
-    await runConnect('localhost/pigeon-beacon', 'beacon')
+    await runConnect('localhost/columba-beacon', 'beacon')
     const r = await cli.send('beacon/block {"foo": "bar"}')
     assert.deepEqual(r.data, { foo: 'bar' })
   })

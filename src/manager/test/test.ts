@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { FlockCli } from 'pigeon-sdk/js/flock-cli'
+import { FlockCli } from 'columba-sdk/js/flock-cli'
 import { FlockManager } from '../flock-manager'
 let app: FlockManager
 let cli: FlockCli
@@ -26,15 +26,15 @@ describe('Manager', function () {
     })
     it('list', async () => {
       const r = await cli.send('list')
-      assert.ok(r.includes('localhost/pigeon-beacon'))
+      assert.ok(r.includes('localhost/columba-beacon'))
     })
     it('run', async () => {
-      beacon = await cli.send('run localhost/pigeon-beacon')
+      beacon = await cli.send('run localhost/columba-beacon')
       assert.ok(beacon.match(/[0-9a-f]+/))
     })
     it('ps', async () => {
       const r = await cli.send('ps')
-      assert.ok(r.includes('localhost/pigeon-beacon'))
+      assert.ok(r.includes('localhost/columba-beacon'))
     })
     let port : string
     it('port', async () => {

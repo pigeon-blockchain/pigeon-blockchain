@@ -1,5 +1,5 @@
-# pigeon-blockchain
-Pigeon is a system that integrates microservices and blockchain.
+# columba-blockchain
+Columba is a system that integrates microservices and blockchain.
 
 # Install
 

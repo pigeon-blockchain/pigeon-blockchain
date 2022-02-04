@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import winston from 'winston'
-import { FlockBase } from 'pigeon-sdk/js/flock-base'
+import { FlockBase } from 'columba-sdk/js/flock-base'
 import Algebrite from 'algebrite'
 
 const myTransports = {

@@ -3,7 +3,7 @@
 
 import winston from 'winston'
 import { execSync } from 'child_process'
-import { FlockBase } from '../pigeon-sdk/js/flock-base'
+import { FlockBase } from '../columba-sdk/js/flock-base'
 
 const myTransports = {
   file: new winston.transports.File({ filename: 'server.log' })

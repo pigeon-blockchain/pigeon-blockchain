@@ -13,10 +13,10 @@
         "@msgpack/msgpack": "^2.7.1",
         "libp2p": "^0.35.8",
         "mocha": "^9.2.0",
-        "pigeon-sdk": "github:pigeon-blockchain/pigeon-sdk",
+        "columba-sdk": "github:joequant/columba-sdk",
         "regenerator-runtime": "^0.13.9",
-        "vanilla-blockchain": "github:pigeon-blockchain/vanilla-blockchain",
-        "vanilla-storage": "github:pigeon-blockchain/vanilla-storage",
+        "vanilla-blockchain": "github:joequant/vanilla-blockchain",
+        "vanilla-storage": "github:joequant/vanilla-storage",
         "zeromq": "^6.0.0-beta.6"
     },
     "devDependencies": {

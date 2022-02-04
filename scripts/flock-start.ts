@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { FlockCli } = require('../src/pigeon-sdk/js/flock-cli')
+const { FlockCli } = require('../src/columba-sdk/js/flock-cli')
 const { FlockManager } = require('../src/manager/flock-manager')
 
 const app = new FlockManager({
@@ -33,7 +33,7 @@ async function runConnect (image: string, connect: string) {
 
 async function main () {
   await cli.portConnect('default', 'tcp://127.0.0.1:3000')
-  await runConnect('localhost/pigeon-beacon', 'beacon')
+  await runConnect('localhost/columba-beacon', 'beacon')
   await runConnect('localhost/js-algebra', 'js-algebra')
   console.log("to monitor blockchain")
   console.log(`   npx flock-monitor --subport ${beaconPortConnect[1]} --subscribe root`)

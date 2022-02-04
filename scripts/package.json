@@ -1,5 +1,5 @@
 {
-  "name": "pigeon-blockchain-scripts",
+  "name": "columba-blockchain-scripts",
   "scripts": {
     "prepare": "tsc --build",
     "build": "tsc --build ; chmod a+x flock-start.js",

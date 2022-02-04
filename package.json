@@ -1,5 +1,5 @@
 {
-  "name": "pigeon-blockchain",
+  "name": "columba-blockchain",
   "scripts": {
     "prepare": "npm run build-flock --workspaces --if-present ; npm run build --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
@@ -14,8 +14,8 @@
   },
   "workspaces": [
     "scripts",
-    "src/pigeon-sdk",
-    "src/pigeon-sdk/js",
+    "src/columba-sdk",
+    "src/columba-sdk/js",
     "src/beacon",
     "src/manager",
     "src/flocks/examples/c",

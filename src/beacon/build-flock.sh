@@ -6,10 +6,10 @@ set -o errexit
 container=$(buildah from localhost/flock-base-js)
 mountpoint=$(buildah mount $container)
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-name=pigeon-beacon
+name=columba-beacon
 
 # Labels are part of the "buildah config" command
-buildah config --label maintainer="Joseph C Wang <joe@pigeonchain.co>" $container
+buildah config --label maintainer="Joseph C Wang <joe@columbachain.co>" $container
 
 cp $script_dir/*.sh $mountpoint/tmp
 chmod a+x $mountpoint/tmp/*.sh

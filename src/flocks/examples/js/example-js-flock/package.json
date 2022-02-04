@@ -10,7 +10,7 @@
     },
     "dependencies": {
       "@msgpack/msgpack": "^2.7.1",
-      "pigeon-sdk": "github:pigeon-blockchain/pigeon-sdk",
+      "columba-sdk": "github:joequant/columba-sdk",
       "zeromq": "^6.0.0-beta.6"
     },
     "devDependencies": {

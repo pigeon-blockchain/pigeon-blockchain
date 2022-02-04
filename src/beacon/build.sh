@@ -2,10 +2,10 @@
 set -o errexit
 
 pushd /opt/$1
-mkdir -p /data/pigeon-beacon/store
+mkdir -p /data/columba-beacon/store
 npm install
 rm -rf store
-ln -s ../../data/pigeon-beacon/store store
+ln -s ../../data/columba-beacon/store store
 rm /etc/dnf/protected.d/*
 npm prune --production
 npm cache clean --force
