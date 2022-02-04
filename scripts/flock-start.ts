@@ -7,6 +7,7 @@ const app = new FlockManager({
   conport: 'tcp://127.0.0.1:3000',
   beaconprefix: 'tcp://127.0.0.1'
 })
+
 const cli = new FlockCli()
 let beaconPortConnect : any
 app.run()
@@ -34,6 +35,8 @@ async function main () {
   await cli.portConnect('default', 'tcp://127.0.0.1:3000')
   await runConnect('localhost/pigeon-beacon', 'beacon')
   await runConnect('localhost/js-algebra', 'js-algebra')
+  console.log("to monitor blockchain")
+  console.log(`   npx flock-monitor --subport ${beaconPortConnect[1]} --subscribe root`)
   cli.readline()
 }
 
