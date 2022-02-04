@@ -1,5 +1,5 @@
 # pigeon-blockchain
-Pigeon blockchain
+Pigeon is a system that integrates microservices and blockchain.
 
 # Install
 
