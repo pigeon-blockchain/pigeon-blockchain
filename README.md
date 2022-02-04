@@ -1,5 +1,5 @@
 # columba-blockchain
-Columba is a system that integrates microservices and blockchain.
+Columba - The blockchain/microservices toolkit
 
 # Install
 
@@ -10,4 +10,6 @@ Columba is a system that integrates microservices and blockchain.
 
    scripts/flock-start.js
 
-   will bootstrap a simple environment and set up a command line
+   will bootstrap a simple environment and set up a command line.
+   Look at docs/quickstart.md for a quickstart example
+
