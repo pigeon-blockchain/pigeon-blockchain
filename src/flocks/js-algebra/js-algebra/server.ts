@@ -7,8 +7,13 @@ const myTransports = {
   file: new winston.transports.File({ filename: 'server.log' })
 }
 
-function isObject(a: any) {
-  return (!!a) && (a.constructor === Object);
+function isObject (a: any) {
+  return (!!a) && (a.constructor === Object)
+}
+
+function  getErrorMessage(error: unknown) {
+  if (error instanceof Error) return error.message
+  return String(error)
 }
 
 export class JsAlgebra extends FlockBase {
@@ -16,6 +21,7 @@ export class JsAlgebra extends FlockBase {
     super(obj)
     this.logger.add(myTransports.file)
   }
+
   async initialize (): Promise<void> {
     await super.initialize()
     this.emitter.on('test', async (inobj: any): Promise<void> => {
@@ -37,29 +43,36 @@ export class JsAlgebra extends FlockBase {
         this.beaconUnsubscribe(inobj.data)
         this.send(`unsubscribed to ${inobj.data}`)
       })
-
   }
-  
+
   async beaconProcessTxn (filter: string, inobj: any) : Promise<boolean> {
-    const data = inobj.data;
+    const data = inobj.data
     if (!isObject(data)) {
       return false
     }
-    if (data.cmd === "js-algebra.eval") {
-      const result = await this.beaconSend({
+    if (data.cmd === 'js-algebra.eval') {
+      let result: string
+      let status: number = 0
+      try {
+        result = Algebrite.eval(data.eval).toString()
+      } catch (e) {
+        result = getErrorMessage(e)
+        status = 1
+      }
+      const beaconResp = await this.beaconSend({
         cmd: 'block',
         subcmd: filter,
         data: {
           eval: data.eval,
-          result: Algebrite.eval(data.eval).toString()
+          result: result,
+          status: status
         }
       })
-      this.logger.log('info', result)
+      this.logger.log('info', beaconResp)
     }
     return true
   }
 
-  
   version () : string {
     return 'JsAlgebra'
   }
