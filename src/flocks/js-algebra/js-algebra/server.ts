@@ -11,7 +11,7 @@ function isObject (a: any) {
   return (!!a) && (a.constructor === Object)
 }
 
-function  getErrorMessage(error: unknown) {
+function getErrorMessage (error: unknown) {
   if (error instanceof Error) return error.message
   return String(error)
 }
@@ -34,13 +34,13 @@ export class JsAlgebra extends FlockBase {
     this.emitter.on(
       'subscribe',
       async (inobj: any): Promise<void> => {
-        this.beaconSubscribe(inobj.data)
+        this.beacon.subscribe(inobj.data)
         this.send(`subscribed to ${inobj.data}`)
       })
     this.emitter.on(
       'unsubscribe',
       async (inobj: any): Promise<void> => {
-        this.beaconUnsubscribe(inobj.data)
+        this.beacon.unsubscribe(inobj.data)
         this.send(`unsubscribed to ${inobj.data}`)
       })
   }
@@ -59,7 +59,7 @@ export class JsAlgebra extends FlockBase {
         result = getErrorMessage(e)
         status = 1
       }
-      const beaconResp = await this.beaconSend({
+      const beaconResp = await this.beacon.send({
         cmd: 'block',
         subcmd: filter,
         data: {
