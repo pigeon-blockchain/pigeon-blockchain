@@ -1,7 +1,7 @@
 {
     "name": "manager",
-  "scripts": {
-    "prepare": "tsc -build",
+    "scripts": {
+        "prepare": "tsc -build",
         "build": "tsc --build ; chmod a+x flock-manager.js",
         "clean": "tsc --build --clean",
         "distclean": "rm -fr *.js node_modules store *.log package-lock.json *.map test/*.js test/*.map",
@@ -30,6 +30,7 @@
         "eslint-plugin-import": "^2.25.4",
         "eslint-plugin-node": "^11.1.0",
         "eslint-plugin-promise": "^5.2.0",
+        "eslint-plugin-tsdoc": "^0.2.14",
         "exec-sh": "^0.4.0",
         "mocha": "^9.1.4",
         "typescript": "^4.5.4"
