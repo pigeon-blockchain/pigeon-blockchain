@@ -8,7 +8,6 @@ const myTransports = {
   file: new winston.transports.File({ filename: 'server.log' })
 }
 
-
 export class JsAlgebra extends FlockBase {
   constructor (obj: any) {
     super(obj)

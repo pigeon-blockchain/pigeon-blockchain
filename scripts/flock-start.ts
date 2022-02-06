@@ -35,7 +35,7 @@ async function main () {
   await cli.portConnect('default', 'tcp://127.0.0.1:3000')
   await runConnect('localhost/columba-beacon', 'beacon')
   await runConnect('localhost/js-algebra', 'js-algebra')
-  console.log("to monitor blockchain")
+  console.log('to monitor blockchain')
   console.log(`   npx flock-monitor --subport ${beaconPortConnect[1]} --subscribe root`)
   cli.readline()
 }
