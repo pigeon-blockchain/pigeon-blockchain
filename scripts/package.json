@@ -6,7 +6,7 @@
     "test": "mocha --exit",
     "clean": "tsc --build --clean",
     "lint": "eslint --fix *.ts test/*.ts",
-    "distclean": "rm -rf node_modules *-lock.json *.log *.js test/*.js test/*~"
+    "distclean": "rm -rf node_modules *-lock.json *.log *.js *.map test/*.js test/*~ test/*.map"
   },
   "dependencies": {
     "chai": "^4.3.5",
