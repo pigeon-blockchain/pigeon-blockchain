@@ -5,7 +5,6 @@
         "clean": "tsc --build --clean",
         "distclean": "rm -fr *.js node_modules store *.log package-lock.json",
         "lint": "eslint --fix *.ts test/*.ts",
-        "start": "./server.js &",
         "test": "mocha --exit"
     },
     "bin": {
