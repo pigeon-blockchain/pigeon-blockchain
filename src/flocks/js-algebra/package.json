@@ -1,12 +1,11 @@
 {
     "name": "js-algebra",
     "scripts": {
-      "build": "tsc --build ; chmod a+x server.js",
+      "build": "tsc --build ; chmod a+x app.js",
       "build-flock": "buildah unshare ./build-flock.sh",
         "clean": "tsc --build --clean",
         "distclean": "rm -rf *~ *.log node_modules package-lock.json",
-        "lint": "eslint --fix *.ts",
-        "start": "node server.js"
+        "lint": "eslint --fix *.ts"
     },
     "dependencies": {
         "@msgpack/msgpack": "^2.7.1",
