@@ -5,7 +5,7 @@
     "test": "npm run test --workspaces --if-present",
     "clean": "npm run clean --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
-    "distclean": "rm -rf node_modules *-lock.json *.log ; npm run distclean --workspaces --if-present",
+    "distclean": "rm -rf node_modules *-lock.json *.log docs/docs ; npm run distclean --workspaces --if-present",
     "start": "./bin/flock-start.js",
     "doc": "typedoc"
   },
