@@ -50,7 +50,7 @@ describe('Manager', function () {
     })
     it('.port-connect', async () => {
       const r = await cli.send('.port-list')
-      assert.equal(r.blockchain, 'tcp://127.0.0.1:' + port.toString())
+      assert.equal(r.blockchain, port.toString())
     })
     it('stop --all', async () => {
       await cli.send('.port tcp://127.0.0.1:3000')
