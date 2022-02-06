@@ -1,20 +1,13 @@
 #!/usr/bin/env node
 import winston from 'winston'
 import { FlockBase } from 'columba-sdk/js/flock-base'
+import { isObject, getErrorMessage ] from 'columba-sdk/js/flock-lib'
 import Algebrite from 'algebrite'
 
 const myTransports = {
   file: new winston.transports.File({ filename: 'server.log' })
 }
 
-function isObject (a: any) {
-  return (!!a) && (a.constructor === Object)
-}
-
-function getErrorMessage (error: unknown) {
-  if (error instanceof Error) return error.message
-  return String(error)
-}
 
 export class JsAlgebra extends FlockBase {
   constructor (obj: any) {
