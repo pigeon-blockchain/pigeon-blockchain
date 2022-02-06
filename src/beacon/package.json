@@ -6,8 +6,7 @@
     "build": "tsc --build ; chmod a+x app.js",
     "clean": "tsc --build --clean",
     "distclean": "rm -fr *~ *.js node_modules store *.log package-lock.json *.map test/*.js test/*.js.map",
-    "lint": "eslint --fix *.ts",
-    "test": "mocha --exit"
+    "lint": "eslint --fix *.ts"
   },
   "dependencies": {
     "@msgpack/msgpack": "^2.7.1",

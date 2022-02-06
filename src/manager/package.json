@@ -1,6 +1,7 @@
 {
     "name": "manager",
-    "scripts": {
+  "scripts": {
+    "prepare": "tsc -build",
         "build": "tsc --build ; chmod a+x flock-manager.js",
         "clean": "tsc --build --clean",
         "distclean": "rm -fr *.js node_modules store *.log package-lock.json *.map test/*.js test/*.map",
