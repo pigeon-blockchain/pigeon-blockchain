@@ -1,7 +1,7 @@
 {
     "name": "hello-world",
     "scripts": {
-	"build": "buildah unshare ./build-flock.sh"
+	"build-flock": "buildah unshare ./build-flock.sh"
     }
 }
 
