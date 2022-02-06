@@ -1,8 +1,29 @@
 {
-    "name": "example-nodejs-flock",
-    "scripts": {
-      "build": "buildah unshare ./build-flock.sh",
-      "distclean": "rm -f package-lock.json"
+  "name": "example-js-flock",
+  "scripts": {
+    "prepare": "tsc --build ; chmod a+x server.js",
+    "build": "tsc --build ; chmod a+x server.js",
+    "build-flock": "buildah unshare ./build-flock.sh",
+    "clean": "tsc --build --clean",
+    "lint": "eslint --fix *.ts",
+    "start": "node server.js",
+    "distclean": "rm -fr *~ node_modules store *.js *.log *-lock.json"
+    },
+    "dependencies": {
+      "@msgpack/msgpack": "^2.7.1",
+      "columba-sdk": "github:joequant/columba-sdk",
+      "zeromq": "^6.0.0-beta.6"
+    },
+    "devDependencies": {
+        "@types/node": "^17.0.8",
+        "@typescript-eslint/eslint-plugin": "^5.9.1",
+        "@typescript-eslint/parser": "^5.9.1",
+        "eslint": "^7.32.0",
+        "eslint-config-standard": "^16.0.3",
+        "eslint-plugin-import": "^2.25.4",
+        "eslint-plugin-node": "^11.1.0",
+        "eslint-plugin-promise": "^5.2.0",
+        "exec-sh": "^0.4.0",
+        "typescript": "^4.5.4"
     }
 }
-
