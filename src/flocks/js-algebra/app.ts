@@ -8,13 +8,18 @@ const myTransports = {
   file: new winston.transports.File({ filename: 'server.log' })
 }
 
+/**
+ * simple class that monitors beacon events and evaluates
+ * to computations
+ */
+
 export class JsAlgebra extends FlockBase {
   constructor (obj: any) {
     super(obj)
     this.logger.add(myTransports.file)
   }
 
-  async initialize (): Promise<void> {
+  override async initialize (): Promise<void> {
     await super.initialize()
     this.emitter.on('test', async (inobj: any): Promise<void> => {
       const retval = 2 * parseInt(inobj.data.toString(), 10)
@@ -37,7 +42,7 @@ export class JsAlgebra extends FlockBase {
       })
   }
 
-  async beaconProcessTxn (filter: string, inobj: any) : Promise<boolean> {
+  override async beaconProcessTxn (filter: string, inobj: any) : Promise<boolean> {
     const data = inobj.data
     if (!isObject(data)) {
       return false
@@ -65,7 +70,7 @@ export class JsAlgebra extends FlockBase {
     return true
   }
 
-  version () : string {
+  override version () : string {
     return 'JsAlgebra'
   }
 }

@@ -37,7 +37,7 @@ export class FlockManager extends FlockBase {
     this.logger.add(myTransports.file)
   }
 
-  async initialize (): Promise<void> {
+  override async initialize (): Promise<void> {
     this.logger.log('info', 'server initializing')
     await super.initialize()
     this.emitter.on('help', async (): Promise<void> => {
@@ -173,13 +173,13 @@ export class FlockManager extends FlockBase {
     }))
   }
 
-  async shutdown () : Promise<void> {
+  override async shutdown () : Promise<void> {
     this.logger.info('Shutting down')
     await this.stopAll()
     process.exit(0)
   }
 
-  version () : string {
+  override version () : string {
     return 'FlockManager'
   }
 }

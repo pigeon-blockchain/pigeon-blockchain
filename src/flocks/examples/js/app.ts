@@ -2,7 +2,7 @@
 import { FlockBase } from 'columba-sdk/js/flock-base'
 
 export class ExampleJsFlock extends FlockBase {
-  async initialize (): Promise<void> {
+  override async initialize (): Promise<void> {
     await super.initialize()
     this.emitter.on('test', async (inobj: any): Promise<void> => {
       const retval = 2 * parseInt(inobj.data.toString(), 10)
@@ -10,7 +10,7 @@ export class ExampleJsFlock extends FlockBase {
     })
   }
 
-  version () : string {
+  override version () : string {
     return 'ExampleJsFlock'
   }
 }

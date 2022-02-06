@@ -1,15 +1,14 @@
 #!/usr/bin/env node
 // SPDX-License-Identifier: MIT
 
-import 'regenerator-runtime/runtime'
 import blockchain = require('vanilla-blockchain')
 import { FlockBase } from 'columba-sdk/js/flock-base'
 
 /** Class implementing Blockchain server
- * @extends FlockServer
+ * @extends FlockBase
  */
 
-export class BlockApp extends FlockBase {
+export class Beacon extends FlockBase {
   blockchain: any;
   debug: boolean;
   constructor (
@@ -20,7 +19,7 @@ export class BlockApp extends FlockBase {
     this.debug = false
   }
 
-  async getBlockchain (name: string) {
+  private async getBlockchain (name: string) {
     if (this.blockchain[name] === undefined) {
       this.blockchain[name] =
         await new blockchain.AsyncBlockchain({ filename: name })
@@ -28,7 +27,7 @@ export class BlockApp extends FlockBase {
     return this.blockchain[name]
   }
 
-  async initialize (): Promise<void> {
+  override async initialize (): Promise<void> {
     await super.initialize()
     this.blockchain.default = await new blockchain.AsyncBlockchain()
     this.emitter.on('help', async (): Promise<void> => {
@@ -66,16 +65,11 @@ export class BlockApp extends FlockBase {
       })
   }
 
-  version () : string {
+  override version () : string {
     return 'Beacon'
-  }
-
-  static startup (argv: any) : void {
-    const app = new BlockApp(argv)
-    app.run()
   }
 }
 
 if (typeof require !== 'undefined' && require.main === module) {
-  BlockApp.runServer()
+  Beacon.runServer()
 }
