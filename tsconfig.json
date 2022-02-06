@@ -14,7 +14,7 @@
       "src/columba-sdk/js/flock-connection.ts",
       "src/columba-sdk/js/flock-monitor.ts",
       "src/columba-sdk/js/flock-cli.ts",
-      "src/columba-sdk/js/flock-lib.ts",
+      "src/columba-sdk/js/flock-util.ts",
       "src/flocks/js-algebra/app.ts",
       "src/flocks/examples/js/app.ts",
       "src/manager/flock-manager.ts"
