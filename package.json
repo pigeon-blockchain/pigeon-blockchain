@@ -6,7 +6,8 @@
     "clean": "npm run clean --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
     "distclean": "rm -rf node_modules *-lock.json *.log ; npm run distclean --workspaces --if-present",
-    "start": "./bin/flock-start.js"
+    "start": "./bin/flock-start.js",
+    "doc": "typedoc"
   },
   "include-workspace-root": true,
   "bin": {
@@ -21,5 +22,8 @@
     "src/flocks/examples/c",
     "src/flocks/examples/js",
     "src/flocks/js-algebra"
-  ]
+  ],
+  "devDependencies": {
+    "typedoc": "^0.22.11"
+  }
 }
