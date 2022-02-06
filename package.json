@@ -1,7 +1,7 @@
 {
   "name": "columba-blockchain",
   "scripts": {
-    "prepare": "npm run build-flock --workspaces --if-present ; npm run build --workspaces --if-present",
+    "prepare": "npm run build-flock --workspaces --if-present",
     "test": "npm run test --workspaces --if-present",
     "clean": "npm run clean --workspaces --if-present",
     "lint": "npm run lint --workspaces --if-present",
