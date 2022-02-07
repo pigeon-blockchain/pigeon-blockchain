@@ -1,5 +1,5 @@
 import assert from 'assert'
-import { FlockCli } from '../../columba-sdk/js'
+import { FlockCli } from 'columba-sdk/js'
 import { FlockManager } from '..'
 let app: FlockManager
 let cli: FlockCli
