@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 import winston from 'winston'
-import { FlockBase } from 'columba-sdk/js/flock-base'
-import { isObject, getErrorMessage } from 'columba-sdk/js/flock-util'
+import { FlockBase, isObject, getErrorMessage } from 'columba-sdk/js'
 import Algebrite from 'algebrite'
 
 const myTransports = {

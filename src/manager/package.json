@@ -2,21 +2,21 @@
     "name": "manager",
     "scripts": {
         "prepare": "tsc -build",
-        "build": "tsc --build ; chmod a+x flock-manager.js",
+        "build": "tsc --build ; chmod a+x dist/manager/src/flock-manager.js",
         "clean": "tsc --build --clean",
-        "distclean": "rm -fr *.js node_modules store *.log package-lock.json *.map test/*.js test/*.map",
+        "distclean": "rm -fr node_modules store *.log package-lock.json dist",
         "lint": "eslint --fix *.ts test/*.ts",
-        "test": "mocha --exit"
+        "test": "mocha --exit dist/manager/test"
     },
     "bin": {
-        "flock-manager": "./flock-manager.js"
+        "flock-manager": "./dist/manager/src/flock-manager.js"
     },
     "dependencies": {
         "@msgpack/msgpack": "^2.7.1",
         "@types/expect": "^24.3.0",
         "@types/mocha": "^9.1.0",
         "@types/yargs": "^17.0.8",
-        "columba-sdk": "../columba-sdk",
+        "columba-sdk-js": "../columba-sdk/js",
         "winston": "^3.4.0",
         "yargs": "^17.3.1",
         "zeromq": "^6.0.0-beta.6"

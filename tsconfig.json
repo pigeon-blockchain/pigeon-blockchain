@@ -10,14 +10,11 @@
   "typedocOptions": {
     "entryPoints": [
       "src/beacon/app.ts",
-      "src/columba-sdk/js/flock-base.ts"
-      "src/columba-sdk/js/flock-connection.ts",
-      "src/columba-sdk/js/flock-monitor.ts",
-      "src/columba-sdk/js/flock-cli.ts",
-      "src/columba-sdk/js/flock-util.ts",
+      "src/columba-sdk/js/index.ts",
+      "src/columba-sdk/js/src/flock-connection.ts",
       "src/flocks/js-algebra/app.ts",
       "src/flocks/examples/js/app.ts",
-      "src/manager/flock-manager.ts"
+      "src/manager/index.ts"
     ],
     "out": "docs/docs"
   }

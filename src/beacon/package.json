@@ -1,11 +1,11 @@
 {
   "name": "columba-beacon",
   "scripts": {
-    "prepare": "tsc --build ; chmod a+x app.js",
+    "prepare": "tsc --build ; chmod a+x dist/app.js",
     "build-flock": "buildah unshare ./build-flock.sh",
-    "build": "tsc --build ; chmod a+x app.js",
+    "build": "tsc --build ; chmod a+x dist/app.js",
     "clean": "tsc --build --clean",
-    "distclean": "rm -fr *~ *.js node_modules store *.log package-lock.json *.map test/*.js test/*.js.map",
+    "distclean": "rm -fr *~ node_modules store *.log package-lock.json dist",
     "lint": "eslint --fix *.ts"
   },
   "dependencies": {

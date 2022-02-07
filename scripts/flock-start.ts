@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-const { FlockCli } = require('../src/columba-sdk/js/flock-cli')
-const { FlockManager } = require('../src/manager/flock-manager')
+import { FlockCli } from '../src/columba-sdk/js'
+import { FlockManager } from '../src/manager'
 
 const app = new FlockManager({
   conport: 'tcp://127.0.0.1:3000',

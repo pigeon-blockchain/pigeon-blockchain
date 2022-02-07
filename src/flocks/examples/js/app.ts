@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-import { FlockBase } from 'columba-sdk/js/flock-base'
+import { FlockBase } from 'columba-sdk/js'
 
 export class ExampleJsFlock extends FlockBase {
   override async initialize (): Promise<void> {

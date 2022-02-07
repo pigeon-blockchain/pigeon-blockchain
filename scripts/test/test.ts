@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
-import { FlockCli } from '../../src/columba-sdk/js/flock-cli'
-import { FlockManager } from '../../src/manager/flock-manager'
+import { FlockCli } from '../../src/columba-sdk/js'
+import { FlockManager } from '../../src/manager'
 import assert from 'assert'
 
 const app = new FlockManager({

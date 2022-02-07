@@ -1,8 +1,11 @@
 #!/usr/bin/env node
 // SPDX-License-Identifier: MIT
 
+// Needed for vanilla-blockchain
+import 'regenerator-runtime/runtime'
+
 import blockchain = require('vanilla-blockchain')
-import { FlockBase } from 'columba-sdk/js/flock-base'
+import { FlockBase } from 'columba-sdk/js'
 
 /** Class implementing Blockchain server
  * @extends FlockBase

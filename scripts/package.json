@@ -3,16 +3,26 @@
   "scripts": {
     "prepare": "tsc --build",
     "build": "tsc --build ; chmod a+x flock-start.js",
-    "test": "mocha --exit",
+    "test": "mocha --exit dist/scripts/test/test.js",
     "clean": "tsc --build --clean",
     "lint": "eslint --fix *.ts test/*.ts",
-    "distclean": "rm -rf node_modules *-lock.json *.log *.js *.map test/*.js test/*~ test/*.map"
+    "distclean": "rm -rf node_modules *-lock.json *.log dist"
+  },
+  "bin": {
+    "flock-start": "./dist/scripts/flock-start.js"
   },
   "dependencies": {
     "chai": "^4.3.5",
-    "mocha": "^9.2.0"
+    "json5": "^2.2.0",
+    "mocha": "^9.2.0",
+    "winston": "^3.5.1"
   },
   "devDependencies": {
-    "eslint-plugin-tsdoc": "^0.2.14"
+    "@types/assert": "^1.5.6",
+    "@types/mocha": "^9.1.0",
+    "@types/node": "^17.0.15",
+    "assert": "^2.0.0",
+    "eslint-plugin-tsdoc": "^0.2.14",
+    "typescript": "^4.5.5"
   }
 }
