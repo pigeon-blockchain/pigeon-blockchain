@@ -9,5 +9,5 @@
     "sourceMap": true,
     "outDir": "dist"
   },
-  "include": ["flock-start.ts", "test/test.ts"]
+  "include": ["src/**/*.ts"]
 }

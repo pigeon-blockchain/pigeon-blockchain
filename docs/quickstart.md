@@ -5,7 +5,7 @@ npm install
 
 Run
 ---
-./scripts/flock-start.js
+    npx flock-start
 
 start up the monitor in another window
 

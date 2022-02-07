@@ -2,26 +2,28 @@
   "name": "columba-blockchain-scripts",
   "scripts": {
     "prepare": "tsc --build",
-    "build": "tsc --build ; chmod a+x flock-start.js",
+    "build": "tsc --build ; chmod a+x dist/flock-start.js",
     "test": "mocha --exit  --require ts-node/register test/**/*.ts",
     "clean": "tsc --build --clean",
     "lint": "eslint --fix *.ts test/*.ts",
     "distclean": "rm -rf node_modules *-lock.json *.log dist"
   },
   "bin": {
-    "flock-start": "./dist/scripts/flock-start.js",
-    "flock-clean-unused": "./clean-unused.sh" 
+    "flock-start": "./dist/flock-start.js",
+    "flock-clean-unused": "./clean-unused.sh"
   },
   "dependencies": {
+    "columba-sdk": "file:../src/columba-sdk",
+    "manager": "file:../src/manager"
   },
   "devDependencies": {
-    "mocha": "^9.2.0",
     "@types/assert": "^1.5.6",
     "@types/mocha": "^9.1.0",
     "@types/node": "^17.0.15",
     "assert": "^2.0.0",
     "eslint-plugin-tsdoc": "^0.2.14",
-    "typescript": "^4.5.5",
-    "ts-node": "^10.4.0"
+    "mocha": "^9.2.0",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5"
   }
 }

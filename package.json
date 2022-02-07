@@ -14,14 +14,14 @@
     "clean-unused": "./bin/clean-unused.sh"
   },
   "workspaces": [
-    "scripts",
     "src/columba-sdk",
     "src/columba-sdk/js",
     "src/beacon",
     "src/manager",
     "src/flocks/examples/c",
     "src/flocks/examples/js",
-    "src/flocks/js-algebra"
+    "src/flocks/js-algebra",
+    "scripts"
   ],
   "devDependencies": {
     "typedoc": "^0.22.11"
