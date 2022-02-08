@@ -18,8 +18,8 @@
     "columba-sdk/js",
     "packages/beacon",
     "packages/manager",
-    "flocks/examples/c",
-    "flocks/examples/js",
+    "flocks/example-c",
+    "flocks/example-js",
     "flocks/js-algebra"
   ],
   "dependencies": {

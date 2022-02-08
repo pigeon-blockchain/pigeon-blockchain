@@ -15,7 +15,7 @@
       "../columba-sdk/js/src/index.ts",
       "../columba-sdk/js/src/flock-connection.ts",
       "../flocks/js-algebra/app.ts",
-      "../flocks/examples/js/app.ts",
+      "../flocks/example-js/app.ts",
       "../packages/manager/src/index.ts"
     ],
     "out": "typedoc"
