@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 
-import { FlockCli } from '../../columba-sdk/js'
-import { FlockManager } from '../../packages/manager'
-import assert from 'assert'
+import { FlockCli } from '../columba-sdk/js'
+import { FlockManager } from '../packages/manager'
 
 const app = new FlockManager({
   conport: 'tcp://127.0.0.1:3000',
   beaconprefix: 'tcp://127.0.0.1'
 })
+
 const cli = new FlockCli()
 let beaconPortConnect : any
+app.run()
 
 async function runConnect (image: string, connect: string) {
   const p = await cli.send(`run ${image}`)
@@ -30,20 +31,13 @@ async function runConnect (image: string, connect: string) {
   return p
 }
 
-describe('Test', () => {
-  before(async () => {
-    app.run()
-    await cli.portConnect('default', 'tcp://127.0.0.1:3000')
-  })
-  after(async () => {
-    app.stopAll()
-  })
-  it('port', async () => {
-    await runConnect('localhost/columba-beacon', 'beacon')
-    const r = await cli.send('beacon/block {"foo": "bar"}')
-    assert.deepEqual(r.data, { foo: 'bar' })
-  })
-  it('jsalgebra', async () => {
-    await runConnect('localhost/js-algebra', 'js-algebra')
-  })
-})
+async function main () {
+  await cli.portConnect('default', 'tcp://127.0.0.1:3000')
+  await runConnect('localhost/columba-beacon', 'beacon')
+  await runConnect('localhost/js-algebra', 'js-algebra')
+  console.log('to monitor blockchain')
+  console.log(`   npx flock-monitor --subport ${beaconPortConnect[1]} --subscribe root`)
+  cli.readline()
+}
+
+main()

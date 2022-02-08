@@ -4,4 +4,4 @@ name=columba-beacon
 maintainer="Joseph C Wang <joequant@gmail.com>"
 base=localhost/flock-base-js
 
-. ../columba-sdk/js/build-flock-body.sh
+. ../../columba-sdk/js/build-flock-body.sh
