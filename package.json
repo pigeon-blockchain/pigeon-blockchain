@@ -15,12 +15,9 @@
     "clean-unused": "./bin/clean-unused.sh"
   },
   "workspaces": [
-    "columba-sdk/js",
-    "packages/beacon",
-    "packages/manager",
-    "flocks/example-c",
-    "flocks/example-js",
-    "flocks/js-algebra"
+    "columba-sdk",
+    "packages",
+    "flocks"
   ],
   "dependencies": {
     "@msgpack/msgpack": "^2.7.1",

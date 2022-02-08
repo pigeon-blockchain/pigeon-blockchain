@@ -1,0 +1,14 @@
+{
+  "name": "columba-flocks",
+  "scripts": {
+    "build-flock": "npm run build-flock --workspaces --if-present",
+    "clean": "npm run clean --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "distclean": "rm -rf node_modules *-lock.json ; npm run distclean --workspaces --if-present"
+  },
+  "workspaces": [
+    "example-c",
+    "example-js",
+    "js-algebra"
+  ]
+}
