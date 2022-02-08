@@ -9,12 +9,12 @@
   },
   "typedocOptions": {
     "entryPoints": [
-      "src/beacon/app.ts",
-      "src/columba-sdk/js/src/index.ts",
-      "src/columba-sdk/js/src/flock-connection.ts",
-      "src/flocks/js-algebra/app.ts",
-      "src/flocks/examples/js/app.ts",
-      "src/manager/src/index.ts"
+      "packages/beacon/app.ts",
+      "packages/columba-sdk/js/src/index.ts",
+      "packages/columba-sdk/js/src/flock-connection.ts",
+      "packages/flocks/js-algebra/app.ts",
+      "packages/flocks/examples/js/app.ts",
+      "packages/manager/src/index.ts"
     ],
     "out": "docs/docs"
   }

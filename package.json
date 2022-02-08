@@ -1,5 +1,6 @@
 {
   "name": "columba-blockchain",
+  "version": "0.0.1",
   "scripts": {
     "prepare": "npm run build-flock --workspaces --if-present ; npm run doc",
     "test": "npm run test --workspaces --if-present",
@@ -14,13 +15,12 @@
     "clean-unused": "./bin/clean-unused.sh"
   },
   "workspaces": [
-    "src/columba-sdk",
-    "src/columba-sdk/js",
-    "src/beacon",
-    "src/manager",
-    "src/flocks/examples/c",
-    "src/flocks/examples/js",
-    "src/flocks/js-algebra",
+    "packages/columba-sdk/js",
+    "packages/beacon",
+    "packages/manager",
+    "packages/flocks/examples/c",
+    "packages/flocks/examples/js",
+    "packages/flocks/js-algebra",
     "scripts"
   ],
   "devDependencies": {

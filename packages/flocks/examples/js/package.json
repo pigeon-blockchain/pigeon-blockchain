@@ -1,7 +1,7 @@
 {
   "name": "example-js-flock",
   "scripts": {
-    "prepare": "tsc --build ; chmod a+x dist/app.js",
+    "prepare": "npm run build",
     "build": "tsc --build ; chmod a+x dist/app.js",
     "build-flock": "buildah unshare ./build-flock.sh",
     "clean": "tsc --build --clean",
