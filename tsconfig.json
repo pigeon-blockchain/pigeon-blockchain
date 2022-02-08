@@ -8,8 +8,7 @@
     "sourceMap": true,
     "strict": true,
     "esModuleInterop": true,
-    "outDir": "dist",
-    "rootDir": "src"
+    "outDir": "dist"
   },
   "typedocOptions": {
     "entryPoints": [

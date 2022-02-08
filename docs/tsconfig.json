@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "noImplicitAny": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "sourceMap": true,
+    "strict": true,
+    "esModuleInterop": true
+  },
+  "typedocOptions": {
+    "entryPoints": [
+      "../packages/beacon/app.ts",
+      "../columba-sdk/js/src/index.ts",
+      "../columba-sdk/js/src/flock-connection.ts",
+      "../flocks/js-algebra/app.ts",
+      "../flocks/examples/js/app.ts",
+      "../packages/manager/src/index.ts"
+    ],
+    "out": "typedoc"
+  },
+  "include": [
+    "../packages/**/*",
+    "../flocks/**/*",
+    "../columba-sdk/**/*"
+  ]
+}
