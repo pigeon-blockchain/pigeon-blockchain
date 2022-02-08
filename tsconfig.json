@@ -10,10 +10,10 @@
   "typedocOptions": {
     "entryPoints": [
       "packages/beacon/app.ts",
-      "packages/columba-sdk/js/src/index.ts",
-      "packages/columba-sdk/js/src/flock-connection.ts",
-      "packages/flocks/js-algebra/app.ts",
-      "packages/flocks/examples/js/app.ts",
+      "columba-sdk/js/src/index.ts",
+      "columba-sdk/js/src/flock-connection.ts",
+      "flocks/js-algebra/app.ts",
+      "flocks/examples/js/app.ts",
       "packages/manager/src/index.ts"
     ],
     "out": "docs/docs"

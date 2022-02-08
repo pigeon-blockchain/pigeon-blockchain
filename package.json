@@ -15,12 +15,12 @@
     "clean-unused": "./bin/clean-unused.sh"
   },
   "workspaces": [
-    "packages/columba-sdk/js",
+    "columba-sdk/js",
     "packages/beacon",
     "packages/manager",
-    "packages/flocks/examples/c",
-    "packages/flocks/examples/js",
-    "packages/flocks/js-algebra",
+    "flocks/examples/c",
+    "flocks/examples/js",
+    "flocks/js-algebra",
     "scripts"
   ],
   "devDependencies": {

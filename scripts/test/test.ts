@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { FlockCli } from '../../packages/columba-sdk/js'
+import { FlockCli } from '../../columba-sdk/js'
 import { FlockManager } from '../../packages/manager'
 import assert from 'assert'
 

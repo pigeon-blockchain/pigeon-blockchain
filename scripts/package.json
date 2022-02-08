@@ -13,8 +13,8 @@
     "flock-clean-unused": "./clean-unused.sh"
   },
   "dependencies": {
-    "columba-sdk": "file:../packages/columba-sdk",
-    "manager": "file:../packages/manager"
+    "columba-sdk": "file:../columba-sdk",
+    "manager": "file:../manager"
   },
   "devDependencies": {
     "@types/assert": "^1.5.6",
